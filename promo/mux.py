@@ -8,7 +8,7 @@ os.makedirs(OUT, exist_ok=True)
 HERE = os.path.dirname(os.path.abspath(__file__))
 sc = json.load(open(os.path.join(R, "scenes.json")))
 total, scenes = sc["total"], sc["scenes"]
-timing = {t["id"]: t for t in json.load(open(os.path.join(HERE, "timing.json")))}
+timing = {t["id"]: t for t in json.load(open(os.environ.get("TIMING", os.path.join(HERE, "timing.json"))))}
 
 
 def run(args):

@@ -19,11 +19,11 @@ const ease = (x) => 1 - Math.pow(1 - clamp(x), 3);
 const easeIO = (x) => { x = clamp(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
 const prog = (t, a, d) => clamp((t - a) / d);
 
-const GAP = 0.55, LEAD = 0.5, TAIL = 2.6;
+const GAP = +(params.get('gap') ?? 0.55), LEAD = 0.5, TAIL = +(params.get('tail') ?? 2.6);
 let SCENES = [], TOTAL = 0, D = {};
 
 async function load() {
-  const timing = await fetch('/promo/timing.json').then((r) => r.json());
+  const timing = await fetch(params.get('timing') || '/promo/timing.json').then((r) => r.json());
   let t = LEAD;
   SCENES = timing.map((s) => { const sc = { ...s, start: t, end: t + s.dur + GAP }; t = sc.end; return sc; });
   SCENES.at(-1).end += TAIL;

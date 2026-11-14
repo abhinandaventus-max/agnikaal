@@ -1,0 +1,51 @@
+1
+00:00:00,595 --> 00:00:02,170
+We're Team AKASHA7:
+
+2
+00:00:02,163 --> 00:00:04,443
+Abhinand, Abhijith and Annlia.
+
+3
+00:00:04,938 --> 00:00:08,081
+NASA's fire record is split between two satellites,
+
+4
+00:00:08,074 --> 00:00:09,263
+MODIS and VIIRS,
+
+5
+00:00:09,313 --> 00:00:10,820
+so history looks broken.
+
+6
+00:00:11,315 --> 00:00:14,129
+Agnikaal joins them into one consistent fire
+
+7
+00:00:13,940 --> 00:00:14,709
+calendar.
+
+8
+00:00:15,204 --> 00:00:17,722
+Draw any area to see its fire season,
+
+9
+00:00:17,772 --> 00:00:19,268
+trends and a live warning,
+
+10
+00:00:19,763 --> 00:00:22,588
+with free AI forecasts and research tools
+
+11
+00:00:22,399 --> 00:00:23,895
+built on NASA data,
+
+12
+00:00:24,390 --> 00:00:27,136
+so firefighters and scientists can act before
+
+13
+00:00:26,947 --> 00:00:28,329
+the next fire season.

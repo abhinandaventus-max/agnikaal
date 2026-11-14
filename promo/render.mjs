@@ -17,7 +17,7 @@ const FPS = fpsArg > 0 ? +process.argv[fpsArg + 1] : 30;
 const browser = await puppeteer.launch({ executablePath: CHROME, headless: 'new', args: ['--hide-scrollbars', '--force-color-profile=srgb'] });
 const page = await browser.newPage();
 await page.setViewport({ width: 1920, height: 1080, deviceScaleFactor: 1 });
-await page.goto(`${BASE}?captions=${captions ? 1 : 0}`, { waitUntil: 'networkidle0', timeout: 120000 });
+await page.goto(`${BASE}?captions=${captions ? 1 : 0}${process.env.STAGE_QUERY || ''}`, { waitUntil: 'networkidle0', timeout: 120000 });
 await page.waitForFunction('window.__ready === true', { timeout: 120000 });
 const total = await page.evaluate('window.__total');
 const scenes = await page.evaluate('window.__scenes');
@@ -31,7 +31,7 @@ if (mode === 'stills') {
   console.log('total', total.toFixed(2));
 } else {
   const out = a1; fs.mkdirSync(out, { recursive: true });
-  const silent = path.join(out, `video-${captions ? 'cc' : 'clean'}-silent.mp4`);
+  const silent = path.join(out, `video-${captions ? 'cc' : 'clean'}${process.env.SUFFIX || ''}-silent.mp4`);
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-',
     '-c:v', 'libx264', '-preset', 'medium', '-crf', '14', '-pix_fmt', 'yuv420p', silent], { stdio: ['pipe', 'inherit', 'inherit'] });
   const n = Math.ceil(total * FPS);

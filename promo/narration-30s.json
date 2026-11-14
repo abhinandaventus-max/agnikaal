@@ -1,0 +1,32 @@
+[
+ {
+  "id": "team",
+  "text": "We're Team AKASHA7: Abhinand, Abhijith and Annlia.",
+  "say": "We're Team Aakaasha-Seven: Abhinand, Abhijith and Annlia."
+ },
+ {
+  "id": "problem",
+  "text": "NASA's fire record is split between two satellites, MODIS and VIIRS, so history looks broken.",
+  "say": "NASA's fire record is split between two satellites, Moh-diss and Veers, so history looks broken."
+ },
+ {
+  "id": "intro",
+  "text": "Agnikaal joins them into one consistent fire calendar.",
+  "say": "Agnikaal joins them into one consistent fire calendar."
+ },
+ {
+  "id": "use",
+  "text": "Draw any area to see its fire season, trends and a live warning,",
+  "say": "Draw any area to see its fire season, trends and a live warning,"
+ },
+ {
+  "id": "ai",
+  "text": "with free AI forecasts and research tools built on NASA data,",
+  "say": "with free AI forecasts and research tools built on NASA data,"
+ },
+ {
+  "id": "who",
+  "text": "so firefighters and scientists can act before the next fire season.",
+  "say": "so firefighters and scientists can act before the next fire season."
+ }
+]
