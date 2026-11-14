@@ -4,7 +4,7 @@
 
 **Team AKASHA7:** [Abhinand](https://www.linkedin.com/in/abhinandks12) · Abhijith K S · [Annlia Lixon](https://www.linkedin.com/in/annlia-lixon/)
 
-**NASA Space Apps Challenge 2026 · Challenge: [Harmonization of MODIS and VIIRS Hot Spots](https://www.spaceappschallenge.org/2026/challenges/modis-and-viirs-hot-spots/) · Team AKASHA7 (Malappuram, India)**
+**NASA Space Apps Challenge 2026 · Challenge: [Harmonization of MODIS and VIIRS Hot Spots](https://www.spaceappschallenge.org/2026/challenges/modis-and-viirs-hot-spots/) · Team AKASHA7 (Thrissur, Kerala)**
 
 > *Agni* (fire) + *kāl* (time): a calendar of fire.
 
