@@ -8,8 +8,32 @@
    -53.5,
    -21.75
   ],
-  "detections": 5227712,
+  "detections": 5669609,
   "seamJump": 2.319515742642026
+ },
+ {
+  "id": "australia",
+  "name": "Australia",
+  "bbox": [
+   113.25,
+   -43.75,
+   153.75,
+   -9.0
+  ],
+  "detections": 29712026,
+  "seamJump": 5.0547711015361365
+ },
+ {
+  "id": "canada",
+  "name": "Canada",
+  "bbox": [
+   -141.25,
+   41.75,
+   -52.5,
+   82.75
+  ],
+  "detections": 11719567,
+  "seamJump": 9.058319946903165
  },
  {
   "id": "india",
@@ -22,5 +46,17 @@
   ],
   "detections": 10923723,
   "seamJump": 5.387029914816254
+ },
+ {
+  "id": "united_states",
+  "name": "United States",
+  "bbox": [
+   -176.75,
+   18.75,
+   179.75,
+   70.5
+  ],
+  "detections": 11746863,
+  "seamJump": 3.230488616263408
  }
 ]
