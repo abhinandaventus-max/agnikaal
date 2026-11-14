@@ -26,6 +26,8 @@ jobs:
       - run: pip install pandas pyarrow numpy
       - name: Build tiles
         run: python3 -I pipeline/build_dataset.py --regions "${{ github.event.inputs.regions || 'India,Argentina,Australia,United_States,Canada' }}" --workers 8
+      - name: Refresh El Nino index (NOAA ONI)
+        run: python3 -I pipeline/fetch_oni.py
       - name: Commit tiles
         run: |
           git config user.name "agnikaal-bot"

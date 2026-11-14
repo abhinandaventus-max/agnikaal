@@ -20,7 +20,8 @@ const CellLayer = L.Layer.extend({
     const offset = this._map._latLngBoundsToNewLayerBounds(this._map.getBounds(), e.zoom, e.center).min;
     L.DomUtil.setTransform(this._canvas, offset, scale);
   },
-  setData(region, vals, max, mask) { this._region = region; this._vals = vals; this._max = max || 1; this._mask = mask; this.redraw(); },
+  setData(region, vals, max, mask) { this._region = region; this._vals = vals; this._max = max || 1; this._mask = mask; this._cats = null; this.redraw(); },
+  setCategories(region, cats, colors, mask) { this._region = region; this._cats = cats; this._colors = colors; this._mask = mask; this.redraw(); },
   setPalette(p) { this._pal = PALETTES[p] || PALETTES.inferno; this.redraw(); },
   _reset() {
     const size = this._map.getSize();
@@ -37,20 +38,22 @@ const CellLayer = L.Layer.extend({
     const dpr = window.devicePixelRatio || 1;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
-    const R = this._region; if (!R || !this._vals) return;
+    const R = this._region; if (!R || (!this._vals && !this._cats)) return;
     const res = R.res, map = this._map;
     const scale = d3.scaleSqrt().domain([0, this._max]).range([0, 1]).clamp(true);
     const b = map.getBounds().pad(0.1);
     ctx.globalCompositeOperation = 'lighter';
     for (let i = 0; i < R.nc; i++) {
-      const v = this._vals[i]; if (!v) continue;
+      const cat = this._cats ? this._cats[i] : -1;
+      const v = this._cats ? (cat >= 0 ? 1 : 0) : this._vals[i]; if (!v) continue;
       const lat = R.cellLat[i], lon = R.cellLon[i];
       if (lat > b.getNorth() || lat + res < b.getSouth() || lon > b.getEast() || lon + res < b.getWest()) continue;
       const p1 = map.latLngToContainerPoint([lat + res, lon]);
       const p2 = map.latLngToContainerPoint([lat, lon + res]);
       const t = scale(v);
       ctx.globalAlpha = this._mask && !this._mask[i] ? 0.18 : 0.35 + 0.65 * t;
-      ctx.fillStyle = this._pal(t);
+      ctx.fillStyle = this._cats ? this._colors[cat] : this._pal(t);
+      if (this._cats) ctx.globalAlpha = this._mask && !this._mask[i] ? 0.25 : 0.85;
       ctx.fillRect(p1.x, p1.y, Math.max(1, p2.x - p1.x - 0.4), Math.max(1, p2.y - p1.y - 0.4));
     }
     ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';

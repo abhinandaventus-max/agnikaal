@@ -9,7 +9,7 @@ Deadline: **Sunday 15 Nov 2026, 11:59 PM IST**.
 Agnikaal: Harmonized MODIS + VIIRS Fire Calendar
 
 ## Summary (≤ 1,500 characters)
-Satellites have tracked fire for 25 years, but the record is split. MODIS (2000→) sees 1 km pixels; VIIRS (2012→) sees 375 m pixels and flags several pixels for every fire MODIS sees once. If you splice them, history breaks: over India, raw counts jump about 5× in 2012. Agnikaal ("agni" = fire, "kāl" = time) fixes that. Our pipeline filters NASA FIRMS hotspots to vegetation fires, snaps every detection from every satellite onto a common 1 km lattice and de-duplicates it per day into "Fire Cell-Days". Then, for any area a user draws, it computes month-specific MODIS→VIIRS calibration factors from 14 overlap years (2012–2025), shrinks them for stability, and cross-validates them live in the browser. The result is one sensor-agnostic monthly record from 2001 to today. The web app shows it as a burning-activity calendar (counts, anomalies, percentiles; CVD-safe color ramps), a fire-season clock with the critical window, a significance-tested trend, and a live 7-day early warning. That warning takes NOAA-20/21 near-real-time hotspots and rates the current pace as below normal, typical, elevated or extreme for this month. Emergency managers, firefighters, land managers and scientists can export CSVs, PNGs and an auto-written briefing. 69.8 million NASA detections from five fire-prone countries (India, Argentina, Australia, USA, Canada) are processed, and adding another takes one command.
+Satellites have tracked fire for 25 years, but the record is split. MODIS (2000→) sees 1 km pixels; VIIRS (2012→) sees 375 m pixels and flags several pixels for every fire MODIS sees once. If you splice them, history breaks: over India, raw counts jump about 5× in 2012. Agnikaal ("agni" = fire, "kāl" = time) fixes that. Our pipeline filters NASA FIRMS hotspots to vegetation fires, snaps every detection from every satellite onto a common 1 km lattice and de-duplicates it per day into "Fire Cell-Days". Then, for any area a user draws, it computes month-specific MODIS→VIIRS calibration factors from 14 overlap years (2012–2025), shrinks them for stability, and cross-validates them live in the browser. The result is one sensor-agnostic monthly record from 2001 to today. The web app shows it as a burning-activity calendar (counts, anomalies, percentiles; CVD-safe ramps), a fire-season clock, a tested trend and a live 7-day early warning from NOAA-20/21 hotspots. A free in-browser AI layer adds a backtested 6-month fire outlook using the El Niño index, a 7-day fire-weather risk score, machine-learned fire regimes and Ask Agni, a guarded on-device assistant. Users can export CSVs, PNGs and an auto-written briefing. 69.8 million NASA detections from five fire-prone countries (India, Argentina, Australia, USA, Canada) are processed, and adding another takes one command.
 
 ## Project demonstration
 <!-- Upload a 30-second video OR a ≤7-slide deck and paste its public link here -->
@@ -27,7 +27,11 @@ https://github.com/abhinandaventus-max/agnikaal
 - a **live early warning** that rates the last 7 days of VIIRS NOAA-20/21 hotspots against this month's 25-year record;
 - a **harmonization tab** showing raw MODIS, raw VIIRS and the harmonized series, the overlap scatter, monthly calibration factors and cross-validation scores;
 - a **"raw splice" toggle** that shows the broken record next to the fixed one;
-- **exports**: monthly CSV, live hotspot CSV, calendar PNG, a printable auto-written briefing and shareable deep links.
+- **exports**: monthly CSV, live hotspot CSV, calendar PNG, a printable auto-written briefing and shareable deep links;
+- **AI fire outlook (6 months)**: a ridge-regression model per drawn area (this month's live activity, the same month last year, NOAA's El Niño index and the trend), backtested by leaving out one year at a time and shrunk toward climatology wherever it has no proven skill (hit rates up to 64% vs 33% by chance);
+- **fire risk this week**: the free Open-Meteo 7-day forecast turned into a Hot-Dry-Windy-style index and combined with season timing and live hotspots;
+- **AI fire regimes**: unsupervised k-means clustering of 40,000+ grid cells by the shape of their fire calendar (e.g. two-season crop-residue burning vs dry-season forest fires);
+- **Ask Agni**: a grounded assistant that answers questions about the area instantly, with an optional free on-device LLM (Llama 3.2 1B via WebLLM; nothing leaves the browser). A number-and-term guard rejects any AI reply that is not backed by the data.
 
 **How harmonization works.**
 1. *Quality filter*: MODIS confidence ≥ 30; VIIRS nominal/high; keep only `type = 0` vegetation fires (drops volcanoes, gas flares and industrial heat sources).
@@ -41,7 +45,9 @@ https://github.com/abhinandaventus-max/agnikaal
 **Tools.** Python (pandas, NumPy, PyArrow) for the pipeline; JavaScript, Vite, D3.js and Leaflet for the app; a Vercel serverless function for the live feed; node:test for unit tests. Hosted on Vercel; code on GitHub.
 
 ## Use of Artificial Intelligence (AI)
-We used an AI coding assistant to speed up development: scaffolding the web app, writing chart and UI code, drafting documentation, and reviewing the statistics code. The team defined the problem framing, harmonization approach, design direction and case studies, and reviewed and tested all generated code (see `tests/`). No AI-generated images, video or audio are used. The app itself makes no AI or LLM calls: all analytics are transparent, deterministic statistics.
+We used an AI coding assistant to speed up development: scaffolding the web app, writing chart and UI code, drafting documentation, and reviewing the statistics code. The team defined the problem framing, harmonization approach, design direction and case studies, and reviewed and tested all generated code (see `tests/`). The intro video narration uses a text-to-speech voice (Microsoft Edge neural TTS); no AI-generated images are used.
+
+AI inside the app (all free, all in the user's browser): (1) the 6-month fire outlook is a ridge-regression model trained per area and validated by leave-one-year-out backtesting; (2) fire regimes come from unsupervised k-means clustering; (3) the optional "Ask Agni" assistant runs an open-source LLM (Meta Llama 3.2 1B Instruct, via WebLLM) on the user's own device. It only rephrases facts retrieved from Agnikaal's statistics, and a guard rejects any reply containing numbers, months or risk levels not present in the data. No paid AI APIs are used and no user data leaves the browser.
 
 ## NASA data
 - NASA FIRMS (Fire Information for Resource Management System), LANCE / Earthdata: https://www.earthdata.nasa.gov/data/tools/firms
@@ -49,10 +55,13 @@ We used an AI coding assistant to speed up development: scaffolding the web app,
 - VIIRS 375 m Collection 2 active fire, Suomi-NPP archive 2012–2025
 - VIIRS 375 m Collection 2 active fire, NOAA-20 archive 2018–2025
 - VIIRS NOAA-20 and NOAA-21 near-real-time 7-day and 24-hour feeds
+- NOAA CPC Oceanic Niño Index (ONI), used as an El Niño predictor: https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt
 
 ## Space agency partner & other data
 - OpenStreetMap contributors and CARTO basemap tiles
 - Natural Earth land outlines (via the `world-atlas` package)
+- Open-Meteo free weather forecast API (CC BY 4.0): https://open-meteo.com
+- WebLLM (Apache-2.0) and Meta Llama 3.2 1B Instruct (Llama 3.2 Community License), run on-device
 
 ## References
 - Giglio, L., Schroeder, W., Justice, C. O. (2016). The collection 6 MODIS active fire detection algorithm and fire products. *Remote Sensing of Environment*, 178, 31–41.

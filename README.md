@@ -32,6 +32,15 @@ MODIS has observed fires since 2000 but is near end of life; VIIRS has replaced 
 | **Exports** | Monthly CSV (harmonized + raw + source + k), live hotspots CSV, calendar PNG, printable briefing, shareable deep link. |
 | **Auto-briefing** | Plain-language summary: season, top and bottom years, ≥3σ extreme months, trend, current conditions and method confidence. |
 
+## AI features (free, run in the browser)
+
+| Feature | How it works |
+|---|---|
+| **AI fire outlook (6 months)** | Ridge regression on log fire anomalies: this month's activity (from the live 7-day pace), the same month last year, NOAA's El Niño index (ONI, with a seasonal interaction) and the trend. It is backtested by leaving out one year at a time, and every month is **shrunk toward climatology in proportion to its proven skill**, so where there is no skill it says "No clear signal". Backtest hit rates: Chaco 64%, Punjab 50–56%, NSW 45%, India 45–50% (33% = chance). |
+| **Fire risk this week** | The free Open-Meteo 7-day forecast becomes a Hot-Dry-Windy-style index (vapour-pressure deficit × wind), combined with season timing and live satellite activity. |
+| **AI fire regimes** | Unsupervised k-means (k = 5) on every cell's normalised 12-month fire calendar, learning e.g. two-season crop-residue burning vs dry-season forest fires. Names are generated from the learned profiles. |
+| **Ask Agni** | An instant, grounded Q&A engine over the area's statistics, plus an optional on-device LLM (Llama 3.2 1B via WebLLM/WebGPU; free, private, nothing leaves the browser) that only *rephrases* retrieved facts. A **number + term guard** replaces any reply containing a number, month or risk level that is not in the data. |
+
 ## Harmonization method
 
 1. **Quality filter.** MODIS confidence ≥ 30; VIIRS nominal/high. Keep `type = 0` (presumed vegetation fire), which drops volcanoes, static industrial sources / gas flares, and offshore detections.

@@ -10,6 +10,7 @@ import {
 import { createMap } from './map.js';
 import { CASES } from './presets.js';
 import { startGlobe } from './globe.js';
+import { renderOutlook, renderRegimes, renderAsk, ensureOutlook, ensureRegimes } from './aiui.js';
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
@@ -197,6 +198,7 @@ function recompute() {
   S.clim = climatology(S.h, 2001, 2025);
   S.season = season(S.clim);
   S.trend = trend(S.rows);
+  S.outlook = null; S.wx = null; S.risk = null;
   $('#hudAoi').textContent = `${S.aoi ? S.aoi.label : R.name + ' · whole region'} · ${count.toLocaleString()} cells`;
   updateMapCells();
   renderKPIs();
@@ -252,6 +254,8 @@ function renderTab() {
   $$('.tab').forEach((t) => { const a = t.dataset.tab === S.tab; t.classList.toggle('active', a); t.setAttribute('aria-selected', a); });
   el.style.animation = 'none'; void el.offsetWidth; el.style.animation = '';
   const h = S.h;
+  if (S.tab !== 'regimes' && S.mapRegimes) { S.mapRegimes = false; updateMapCells(); }
+  if (S.tab === 'regimes') S.mapRegimes = true;
   if (S.tab === 'calendar') {
     el.innerHTML = `<h4>Burning activity calendar · ${S.yA}–${S.yB}</h4><div class="sub">${S.raw ? '<b class="c-fire">Raw splice view:</b> uncorrected detection counts. See the jump at 2012 when VIIRS starts.' : 'Harmonized monthly fire cell-days (VIIRS-equivalent). Hover a cell; purple outline = MODIS-derived.'}</div><div id="cal"></div>`;
     drawCalendar($('#cal'), { rows: S.rows, clim: S.clim, mode: S.mode, palette: S.palette, raw: S.raw, h, onHover: (y) => { S.selYear = y; } });
@@ -295,6 +299,12 @@ function renderTab() {
     drawSeries($('#series'), { h, yA: S.yA, yB: S.yB });
     drawScatter($('#scatter'), { pairs: v.pairs.filter((p) => p[0] + p[1] > 0), kAll: c.kAll });
     drawK($('#kchart'), { cal: c });
+  } else if (S.tab === 'outlook') {
+    renderOutlook(el, S, aiCtx());
+  } else if (S.tab === 'regimes') {
+    renderRegimes(el, S, aiCtx());
+  } else if (S.tab === 'ask') {
+    renderAsk(el, S, aiCtx());
   } else if (S.tab === 'live') {
     renderLive(el);
   } else if (S.tab === 'brief') {
@@ -314,6 +324,10 @@ function critLabel(se) {
   if (runs.length > 1 && runs[0][0] === 0 && runs.at(-1)[1] === 11) { const f = runs.shift(); runs.at(-1)[1] = f[1]; }
   return runs.map(([a, b]) => (a === b ? MONTHS[a] : `${MONTHS[a]}–${MONTHS[b]}`)).join(' · ');
 }
+
+function onLive() { renderKPIs(); if (S.tab === 'outlook') renderTab(); }
+
+function aiCtx() { return { aoiKey, aoiBBox, fetchLive, M, renderKPIs }; }
 
 function aoiKey() { return S.regionId + '|' + JSON.stringify(S.aoi && (S.aoi.bbox || S.aoi.coords)); }
 function aoiBBox() {
@@ -407,6 +421,19 @@ async function renderLive(el) {
   }
 }
 
+function aiBrief() {
+  const o = ensureOutlook(S, aiCtx()); ensureRegimes(S);
+  const parts = [];
+  if (S.risk) parts.push(`<li>Fire risk this week: <b>${S.risk.level}</b> (7-day fire weather, season timing and live activity).</li>`);
+  if (o) {
+    const flagged = o.leads.filter((x) => x && !['Near normal', 'No clear signal'].includes(x.category)).map((x) => `${MONTHS[x.month]} ${x.year}: <b>${x.category}</b>`);
+    parts.push(`<li>AI 6-month outlook: ${flagged.length ? flagged.join(', ') : 'near-normal activity expected in every month'} (backtest hit rate ${o.leads[0] && o.leads[0].hitRate != null ? Math.round(o.leads[0].hitRate * 100) : '–'}% vs 33% by chance).</li>`);
+    if (o.ninoEffect != null) parts.push(`<li>El Niño sensitivity: main fire months run ${o.ninoEffect > 0 ? '+' : ''}${Math.round(o.ninoEffect * 100)}% in El Niño years; latest ONI ${o.oniNow.toFixed(2)}.</li>`);
+  }
+  if (S.aoiRegime) parts.push(`<li>Fire regime (AI clustering): <b>${S.aoiRegime.name}</b>. ${S.aoiRegime.hint}</li>`);
+  return parts.length ? `<h5>AI outlook</h5><ul>${parts.join('')}</ul>` : '';
+}
+
 function briefing() {
   const h = S.h, rows = S.rows, se = S.season, tr = S.trend, clim = S.clim, v = h.validation;
   const name = S.aoi ? S.aoi.label : S.region.name;
@@ -434,6 +461,7 @@ function briefing() {
     <h5>Extreme months (≥ 3σ above the monthly median)</h5>
     <p>${anomalies.length ? anomalies.slice(0, 6).map((a) => `<b>${MONTHS[a.m]} ${a.y}</b> (+${a.z.toFixed(1)}σ)`).join(', ') : 'None detected in the selected period.'}</p>
     ${live ? `<h5>Current conditions (last 7 days)</h5><p>${live.hs.length} VIIRS hotspots, ${live.fcd} fire cell-days. Projected ${MONTHS[new Date().getMonth()]} pace is at the <b>${live.warn.pr.toFixed(0)}th percentile</b>: <b class="lvl-${live.warn.code}">${live.warn.level}</b>.</p>` : ''}
+    ${aiBrief()}
     <h5>Method & confidence</h5>
     <p>MODIS (2001–2011) was calibrated to the VIIRS scale with area-specific monthly factors from ${2025 - 2012 + 1} overlap years; leave-one-year-out cross-validation gives R² = ${v.r2.toFixed(2)} and total bias ${v.bias.toFixed(1)}% (a naive raw splice would be biased by ${v.naiveBias.toFixed(0)}%). Source: NASA FIRMS MODIS C6.1, VIIRS S-NPP / NOAA-20 / NOAA-21 C2.</p>
   </div>`;
@@ -515,7 +543,7 @@ async function setRegion(id, { aoi = null, fit = true } = {}) {
   setToolUI(S.aoi ? 'none' : 'region');
   recompute();
   $('#mapLoading').classList.add('done');
-  fetchLive().then(() => { renderKPIs(); }).catch(() => {});
+  fetchLive().then(onLive).catch(() => {});
 }
 
 function setToolUI(t) { $$('.tool').forEach((b) => b.classList.toggle('active', b.dataset.tool === t)); }
@@ -540,6 +568,8 @@ async function boot() {
   readHash();
 
   const index = await fetch('/data/index.json').then((r) => r.json());
+  fetch('/data/oni.json').then((r) => r.json()).then((o) => { S.oni = o.values; }).catch(() => {});
+  $('#agniFab').addEventListener('click', () => { S.tab = 'ask'; $('#explorer').scrollIntoView({ behavior: 'smooth' }); renderTab(); writeHash(); setTimeout(() => { const i = $('#askIn'); if (i) i.focus({ preventScroll: true }); }, 700); });
   S.index = index;
   $('#regionSel').innerHTML = index.map((r) => `<option value="${r.id}">${r.name}</option>`).join('');
   const totalDet = d3.sum(index, (r) => r.detections || 0);
@@ -574,14 +604,14 @@ async function boot() {
   $$('.tab').forEach((t) => t.onclick = () => { S.tab = t.dataset.tab; renderTab(); writeHash(); });
 
   M = createMap($('#map'), {
-    onAoi: (aoi) => { S.aoi = aoi; S.live = null; M.clearLive(); $('#liveBtn').classList.remove('on'); setToolUI('none'); recompute(); fetchLive().then(renderKPIs).catch(() => {}); },
+    onAoi: (aoi) => { S.aoi = aoi; S.live = null; M.clearLive(); $('#liveBtn').classList.remove('on'); setToolUI('none'); recompute(); fetchLive().then(onLive).catch(() => {}); },
   });
   M.cells.setPalette(S.palette);
   $$('.tool').forEach((b) => b.onclick = () => {
     const t = b.dataset.tool;
     setToolUI(t);
     $('#pointForm').classList.toggle('hidden', t !== 'point');
-    if (t === 'region') { M.setTool('region'); S.aoi = null; M.showAoi(null); M.fit(S.region.bbox); recompute(); fetchLive().then(renderKPIs).catch(() => {}); }
+    if (t === 'region') { M.setTool('region'); S.aoi = null; M.showAoi(null); M.fit(S.region.bbox); recompute(); fetchLive().then(onLive).catch(() => {}); }
     else if (t === 'rect' || t === 'poly') { M.setTool(t); toast(t === 'rect' ? 'Tap two opposite corners on the map' : 'Tap points on the map, then Finish'); }
     else M.setTool('none');
   });
@@ -591,7 +621,7 @@ async function boot() {
     const aoi = circleAoi(lat, lon, km);
     const reg = S.index.find((r) => lon >= r.bbox[0] && lon <= r.bbox[2] && lat >= r.bbox[1] && lat <= r.bbox[3]);
     if (reg && reg.id !== S.regionId) setRegion(reg.id, { aoi });
-    else { S.aoi = aoi; M.showAoi(aoi); M.fit(aoiBBox()); S.live = null; recompute(); fetchLive().then(renderKPIs).catch(() => {}); }
+    else { S.aoi = aoi; M.showAoi(aoi); M.fit(aoiBBox()); S.live = null; recompute(); fetchLive().then(onLive).catch(() => {}); }
   };
   $('#pMe').onclick = () => navigator.geolocation ? navigator.geolocation.getCurrentPosition((p) => { $('#pLat').value = p.coords.latitude.toFixed(3); $('#pLon').value = p.coords.longitude.toFixed(3); $('#pGo').click(); }, () => toast('Location permission denied')) : toast('Geolocation not supported');
   $('#regionSel').onchange = (e) => setRegion(e.target.value);
