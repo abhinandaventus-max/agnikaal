@@ -461,3 +461,6 @@ body { background: #05060b; background-image: radial-gradient(1200px 700px at 80
   #globe.webgl { -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 58%, transparent 72%); mask-image: radial-gradient(circle at 50% 50%, #000 58%, transparent 72%); }
 }
 @media (min-width: 861px) { .tabs { flex-wrap: wrap; overflow: visible; } }
+a.lab-btn { text-decoration: none; }
+.lab-btn.ge { background: linear-gradient(160deg, rgba(74,222,128,.09), rgba(90,209,255,.05)); border-color: rgba(74,222,128,.28); }
+.lab-btn.ge:hover { border-color: var(--ok); }

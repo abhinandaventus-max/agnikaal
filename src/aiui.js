@@ -1,6 +1,6 @@
 // UI for the AI features: Outlook (forecast + fire weather), Fire regimes, Ask Agni chat.
 import { MONTHS, monthlyRows, toCSV } from './harmonize.js';
-import { autoInsights, methodsText, BIBTEX, notebook } from './research.js';
+import { autoInsights, methodsText, BIBTEX, notebook, buildKML, googleEarthUrl, aoiGeoJSON, cellTotals } from './research.js';
 import { nice } from './charts.js';
 import { fireOutlook, latestOni, fireWeather, weeklyRisk, WX_LEVEL, fireRegimes, REGIME_COLORS, buildFacts, askAgniLite, agniSystemPrompt } from './ai.js';
 
@@ -219,6 +219,9 @@ export function renderLab(el, S, ctx) {
       <button class="lab-btn" id="labMethods"><b>⧉ Copy methods paragraph</b><span>Auto-written, with this area's numbers, for your paper or report</span></button>
       <button class="lab-btn" id="labBib"><b>⧉ Copy BibTeX</b><span>Agnikaal + NASA FIRMS DOIs + algorithm papers</span></button>
       <button class="lab-btn" id="labJson"><b>⬇ Data (CSV)</b><span>Monthly harmonized + raw sensor series, 2001–2025</span></button>
+      <button class="lab-btn ge" id="labKml"><b>⬇ KML for Google Earth</b><span>3D fire columns (height = activity) + live hotspots + your area</span></button>
+      <a class="lab-btn ge" id="labGE" href="#" target="_blank" rel="noopener"><b>🌍 Open in Google Earth</b><span>Fly to this area in 3D, then drag the KML file onto the globe</span></a>
+      <button class="lab-btn" id="labGeo"><b>⬇ Area (GeoJSON)</b><span>Your drawn area for QGIS, ArcGIS or Python</span></button>
     </div>
     <details class="methods"><summary>Preview methods paragraph</summary><p>${esc(methodsText(S, ins))}</p></details>`;
   const csv = () => toCSV(monthlyRows(S.h, 2001, 2025));
@@ -227,4 +230,8 @@ export function renderLab(el, S, ctx) {
   el.querySelector('#labMethods').onclick = () => copy(methodsText(S, ins), 'Methods paragraph copied');
   el.querySelector('#labBib').onclick = () => copy(BIBTEX, 'BibTeX copied');
   el.querySelector('#labJson').onclick = () => dl(`agnikaal-${slug}-monthly.csv`, csv(), 'text/csv');
+  const bb = ctx.aoiBBox();
+  el.querySelector('#labGE').href = googleEarthUrl(bb);
+  el.querySelector('#labKml').onclick = () => dl(`agnikaal-${slug}.kml`, buildKML({ name, aoi: S.aoi, bbox: bb, cells: cellTotals(S.region, S.h, S.mask), hotspots: S.live && S.liveFor === ctx.aoiKey() ? S.live.hs : [] }), 'application/vnd.google-earth.kml+xml');
+  el.querySelector('#labGeo').onclick = () => dl(`agnikaal-${slug}.geojson`, aoiGeoJSON(S.aoi, bb, { name, source: 'Agnikaal', meanAnnualFCD: Math.round(ins.annual.reduce((a, b) => a + b, 0) / ins.annual.length) }), 'application/geo+json');
 }

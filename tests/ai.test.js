@@ -91,3 +91,10 @@ test('auto-insights finds a planted monthly trend and exports a valid notebook',
   const nb = JSON.parse(notebook({ h, region: { name: 'Testland' }, aoi: null }, 'year,month,harmonized_fcd\n2001,1,5', ins));
   assert.equal(nb.nbformat, 4); assert.ok(nb.cells.length >= 8);
 });
+import { buildKML, googleEarthUrl, aoiGeoJSON } from '../src/research.js';
+test('Google Earth exports: KML, camera URL, GeoJSON', () => {
+  const kml = buildKML({ name: 'A & B', aoi: null, bbox: [73, 29, 77, 32], cells: [{ lon: 75, lat: 30, res: 0.25, v: 120, yA: 2001, yB: 2025 }], hotspots: [{ lat: 30.1, lon: 75.2, date: '2026-11-10', time: '0730', frp: 5, dn: 'D', conf: 'n' }] });
+  assert.match(kml, /<kml xmlns/); assert.match(kml, /A &amp; B/); assert.match(kml, /<extrude>1<\/extrude>/);
+  assert.match(googleEarthUrl([73, 29, 77, 32]), /^https:\/\/earth\.google\.com\/web\/@30\.5000,75\.0000/);
+  assert.equal(JSON.parse(aoiGeoJSON(null, [73, 29, 77, 32], { a: 1 })).features[0].geometry.coordinates[0].length, 5);
+});

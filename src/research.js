@@ -189,3 +189,67 @@ export function notebook(S, csvText, ins) {
   ];
   return JSON.stringify({ cells, metadata: { kernelspec: { display_name: 'Python 3', language: 'python', name: 'python3' }, language_info: { name: 'python' } }, nbformat: 4, nbformat_minor: 5 }, null, 1);
 }
+
+// ------------------------------------------------------------------ GIS exports (ported from the fork-4 session)
+export function aoiGeoJSON(aoi, bbox, props) {
+  let coords;
+  if (aoi && aoi.type === 'polygon') coords = [[...aoi.coords, aoi.coords[0]]];
+  else { const [w, s, e, n] = bbox; coords = [[[w, s], [e, s], [e, n], [w, n], [w, s]]]; }
+  return JSON.stringify({ type: 'FeatureCollection', features: [{ type: 'Feature', properties: props, geometry: { type: 'Polygon', coordinates: coords } }] }, null, 1);
+}
+
+const xml = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+/** KML for Google Earth: AOI outline, top harmonized fire cells (extruded by activity), and live hotspots */
+export function buildKML({ name, aoi, bbox, cells, hotspots }) {
+  const ring = aoi && aoi.type === 'polygon' ? [...aoi.coords, aoi.coords[0]] : (() => { const [w, s, e, n] = bbox; return [[w, s], [e, s], [e, n], [w, n], [w, s]]; })();
+  const col = (t) => { // inferno-ish ramp → KML aabbggrr
+    const r = Math.round(255 * Math.min(1, 0.4 + t)), g = Math.round(255 * Math.min(1, t * 0.9)), b = Math.round(40 * (1 - t));
+    const h = (x) => x.toString(16).padStart(2, '0');
+    return `cc${h(b)}${h(g)}${h(r)}`;
+  };
+  const max = Math.max(1, ...cells.map((c) => c.v));
+  const cellPm = cells.map((c) => {
+    const t = Math.sqrt(c.v / max), z = Math.round(2000 + 60000 * t);
+    const [w, s] = [c.lon, c.lat], e = w + c.res, n = s + c.res;
+    return `<Placemark><name>${Math.round(c.v).toLocaleString()} FCD</name><description>Harmonized fire cell-days ${c.yA}–${c.yB}</description><Style><PolyStyle><color>${col(t)}</color><outline>0</outline></PolyStyle></Style><Polygon><extrude>1</extrude><altitudeMode>relativeToGround</altitudeMode><outerBoundaryIs><LinearRing><coordinates>${[[w, s], [e, s], [e, n], [w, n], [w, s]].map(([x, y]) => `${x},${y},${z}`).join(' ')}</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark>`;
+  }).join('\n');
+  const hsPm = (hotspots || []).slice(0, 3000).map((h) => `<Placemark><styleUrl>#hs</styleUrl><name>${xml(h.date)} ${xml(h.time)}</name><description>FRP ${h.frp} MW · ${h.dn === 'N' ? 'night' : 'day'} · confidence ${xml(h.conf)}</description><Point><coordinates>${h.lon},${h.lat},0</coordinates></Point></Placemark>`).join('\n');
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2"><Document><name>Agnikaal · ${xml(name)}</name>
+<description>Harmonized MODIS+VIIRS fire activity from Agnikaal (NASA Space Apps 2026, Team AKASHA7). Column height = fire activity.</description>
+<Style id="aoi"><LineStyle><color>ff47b3ff</color><width>3</width></LineStyle><PolyStyle><color>1a47b3ff</color></PolyStyle></Style>
+<Style id="hs"><IconStyle><color>ff5c3bff</color><scale>0.6</scale><Icon><href>https://maps.google.com/mapfiles/kml/shapes/firedept.png</href></Icon></IconStyle></Style>
+<Placemark><name>Area of interest</name><styleUrl>#aoi</styleUrl><Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>${ring.map(([x, y]) => `${x},${y},0`).join(' ')}</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark>
+<Folder><name>Harmonized fire activity (3D columns)</name>
+${cellPm}
+</Folder>
+<Folder><name>Live hotspots (last 7 days)</name>
+${hsPm}
+</Folder>
+</Document></kml>`;
+}
+
+export function googleEarthUrl(bbox) {
+  const [w, s, e, n] = bbox;
+  const lat = (s + n) / 2, lon = (w + e) / 2;
+  const spanKm = Math.max((n - s) * 111, (e - w) * 111 * Math.cos((lat * Math.PI) / 180));
+  const dist = Math.round(Math.min(6e6, Math.max(20000, spanKm * 1800)));
+  return `https://earth.google.com/web/@${lat.toFixed(4)},${lon.toFixed(4)},0a,${dist}d,35y,0h,40t,0r`;
+}
+
+/** Mean annual harmonized fire cell-days per 0.25 deg cell inside the mask (VIIRS era + calibrated MODIS era) */
+export function cellTotals(R, h, mask, yA = 2001, yB = 2025) {
+  const vals = new Float64Array(R.nc), k = h.cal.k;
+  for (const [key, arrName] of [['V', 'V_fcd'], ['M', 'M_fcd']]) {
+    const { k: kk, v } = R.series[arrName];
+    for (let i = 0; i < kk.length; i++) {
+      const c = kk[i] >>> 9, mi = kk[i] & 511, y = R.y0 + Math.floor(mi / 12);
+      if ((mask && !mask[c]) || y < yA || y > yB) continue;
+      if (key === 'V' && y >= 2012) vals[c] += v[i];
+      if (key === 'M' && y < 2012) vals[c] += v[i] * k[mi % 12];
+    }
+  }
+  const yrs = yB - yA + 1, out = [];
+  for (let c = 0; c < R.nc; c++) if (vals[c] > 0) out.push({ lon: R.cellLon[c], lat: R.cellLat[c], res: R.res, v: vals[c] / yrs, yA, yB });
+  return out.sort((a, b) => b.v - a.v).slice(0, 2500);
+}

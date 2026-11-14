@@ -44,7 +44,7 @@ MODIS has observed fires since 2000 but is near end of life; VIIRS has replaced 
 ## Research Lab (for researchers, scientists and students)
 
 * **AI Auto-Insights:** an automated hypothesis scan for the selected area. It covers the long-term trend (Mann–Kendall/Theil–Sen), month-by-month trends, regime shifts (Pettitt), season timing (circular centroid trend), the El Niño link (Spearman vs NOAA ONI), a 2012 sensor-seam check and extreme years. p-values are controlled with **Benjamini–Hochberg FDR**. Example: over Punjab it finds October burning falling −46%/decade, November rising +57% and the season arriving **10 days later per decade**, the known shift after Punjab's 2009 groundwater act.
-* **Exports:** a ready-to-run **Jupyter/Colab notebook** with the area's data embedded (calendar, raw vs harmonized, trend tests, citations), an auto-written **methods paragraph**, **BibTeX** (Agnikaal, NASA FIRMS DOIs, algorithm papers) and the monthly CSV.
+* **Exports:** a ready-to-run **Jupyter/Colab notebook** with the area's data embedded (calendar, raw vs harmonized, trend tests, citations), an auto-written **methods paragraph**, **BibTeX** (Agnikaal, NASA FIRMS DOIs, algorithm papers), the monthly CSV, a **KML for Google Earth** (3D fire columns sized by activity + live hotspots), an **Open in Google Earth** camera link and the area as **GeoJSON**.
 * **NASA imagery:** the map can switch to **yesterday's VIIRS NOAA-20 true-colour image**, Blue Marble or Black Marble (NASA GIBS). The hero is a WebGL Earth built from NASA Blue/Black Marble textures with live fires.
 
 ## Harmonization method
