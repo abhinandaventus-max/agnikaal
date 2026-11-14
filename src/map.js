@@ -63,11 +63,29 @@ const CellLayer = L.Layer.extend({
 export function createMap(el, { onAoi }) {
   const map = L.map(el, { zoomControl: true, worldCopyJump: true, minZoom: 2, preferCanvas: true, attributionControl: true }).setView([22, 79], 4);
   const ESRI = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas';
-  L.tileLayer(`${ESRI}/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}`, {
+  const dark = L.tileLayer(`${ESRI}/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}`, {
     attribution: 'Basemap © Esri, HERE, Garmin, © OpenStreetMap contributors · Fire data: NASA FIRMS', maxZoom: 12,
   }).addTo(map);
+  // NASA GIBS imagery (free, no key) + Esri imagery
+  const GIBS = 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best';
+  const yday = new Date(Date.now() - 36 * 3600 * 1000).toISOString().slice(0, 10);
+  const NASA = 'Imagery: NASA EOSDIS GIBS · Fire data: NASA FIRMS';
+  const layers = {
+    dark,
+    viirs: L.tileLayer(`${GIBS}/VIIRS_NOAA20_CorrectedReflectance_TrueColor/default/${yday}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg`, { attribution: `${NASA} (VIIRS NOAA-20 true colour, ${yday})`, maxNativeZoom: 9, maxZoom: 12 }),
+    marble: L.tileLayer(`${GIBS}/BlueMarble_ShadedRelief_Bathymetry/default/2004-08/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpeg`, { attribution: `${NASA} (Blue Marble)`, maxNativeZoom: 8, maxZoom: 12 }),
+    night: L.tileLayer(`${GIBS}/VIIRS_Black_Marble/default/2016-01-01/GoogleMapsCompatible_Level8/{z}/{y}/{x}.png`, { attribution: `${NASA} (VIIRS Black Marble night lights)`, maxNativeZoom: 8, maxZoom: 12 }),
+    sat: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Imagery © Esri, Maxar, Earthstar Geographics · Fire data: NASA FIRMS', maxZoom: 17 }),
+  };
   map.createPane('labels'); map.getPane('labels').style.zIndex = 450; map.getPane('labels').style.pointerEvents = 'none';
   L.tileLayer(`${ESRI}/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}`, { maxZoom: 12, pane: 'labels', opacity: 0.8 }).addTo(map);
+  let basemap = 'dark';
+  function setBasemap(b) {
+    if (b === basemap || !layers[b]) return;
+    map.removeLayer(layers[basemap]); basemap = b;
+    layers[b].addTo(map); layers[b].bringToBack();
+    el.classList.toggle('sat', b !== 'dark');
+  }
   const cells = new CellLayer(); cells.addTo(map);
   const aoiLayer = L.layerGroup().addTo(map);
   const draftLayer = L.layerGroup().addTo(map);
@@ -138,7 +156,7 @@ export function createMap(el, { onAoi }) {
   }
 
   return {
-    map, cells, setTool, showAoi, showLive,
+    map, cells, setTool, showAoi, showLive, setBasemap, getBasemap: () => basemap,
     clearLive: () => liveLayer.clearLayers(),
     fit: (bbox) => map.fitBounds([[bbox[1], bbox[0]], [bbox[3], bbox[2]]], { padding: [20, 20] }),
   };

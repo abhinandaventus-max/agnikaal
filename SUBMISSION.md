@@ -31,6 +31,8 @@ https://github.com/abhinandaventus-max/agnikaal
 - **AI fire outlook (6 months)**: a ridge-regression model per drawn area (this month's live activity, the same month last year, NOAA's El Niño index and the trend), backtested by leaving out one year at a time and shrunk toward climatology wherever it has no proven skill (hit rates up to 64% vs 33% by chance);
 - **fire risk this week**: the free Open-Meteo 7-day forecast turned into a Hot-Dry-Windy-style index and combined with season timing and live hotspots;
 - **AI fire regimes**: unsupervised k-means clustering of 40,000+ grid cells by the shape of their fire calendar (e.g. two-season crop-residue burning vs dry-season forest fires);
+- **Research Lab** for researchers, scientists and students: AI Auto-Insights automatically tests trends, regime shifts, season-timing shifts and El Niño links with false-discovery-rate control (over Punjab it detects the season shifting 10 days later per decade). One click exports a ready-to-run Jupyter/Colab notebook with the data embedded, an auto-written methods paragraph and BibTeX with NASA FIRMS DOIs;
+- **NASA imagery**: map basemaps from NASA GIBS (yesterday's VIIRS true-colour image, Blue Marble, Black Marble), and a WebGL Earth built from NASA textures;
 - **Ask Agni**: a grounded assistant that answers questions about the area instantly, with an optional free on-device LLM (Llama 3.2 1B via WebLLM; nothing leaves the browser). A number-and-term guard rejects any AI reply that is not backed by the data.
 
 **How harmonization works.**
@@ -61,6 +63,8 @@ AI inside the app (all free, all in the user's browser): (1) the 6-month fire ou
 - OpenStreetMap contributors and CARTO basemap tiles
 - Natural Earth land outlines (via the `world-atlas` package)
 - Open-Meteo free weather forecast API (CC BY 4.0): https://open-meteo.com
+- NASA EOSDIS GIBS imagery (VIIRS NOAA-20 Corrected Reflectance, Blue Marble, Black Marble): https://gibs.earthdata.nasa.gov
+- NASA Visible Earth Blue Marble / Black Marble textures (public domain), Esri World Imagery (optional basemap)
 - WebLLM (Apache-2.0) and Meta Llama 3.2 1B Instruct (Llama 3.2 Community License), run on-device
 
 ## References

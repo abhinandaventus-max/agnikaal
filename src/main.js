@@ -10,13 +10,44 @@ import {
 import { createMap } from './map.js';
 import { CASES } from './presets.js';
 import { startGlobe } from './globe.js';
-import { renderOutlook, renderRegimes, renderAsk, ensureOutlook, ensureRegimes } from './aiui.js';
+import { renderOutlook, renderRegimes, renderAsk, renderLab, ensureOutlook, ensureRegimes } from './aiui.js';
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
 const GITHUB_URL = import.meta.env.VITE_GITHUB_URL || 'https://github.com/';
 
 // ------------------------------------------------------------------ chrome
+function initSpace() {
+  // starfield with a faint Milky Way band, drawn once per resize; gentle scroll parallax
+  const c = $('#starfield'), g = c.getContext('2d');
+  const draw = () => {
+    const dpr = Math.min(2, window.devicePixelRatio || 1), w = innerWidth, h = innerHeight * 1.3;
+    c.width = w * dpr; c.height = h * dpr; c.style.height = h + 'px'; g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    let seed = 7; const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+    const band = g.createLinearGradient(0, h * 0.9, w, h * 0.1);
+    band.addColorStop(0, 'rgba(120,140,255,0)'); band.addColorStop(0.45, 'rgba(150,160,255,0.045)'); band.addColorStop(0.5, 'rgba(255,220,200,0.06)'); band.addColorStop(0.55, 'rgba(150,160,255,0.045)'); band.addColorStop(1, 'rgba(120,140,255,0)');
+    g.fillStyle = band; g.fillRect(0, 0, w, h);
+    const n = Math.round((w * h) / 1700);
+    for (let i = 0; i < n; i++) {
+      const x = rnd() * w, y = rnd() * h, m = rnd();
+      const near = Math.abs((y / h) - (1 - x / w) * 0.8 - 0.1) < 0.12 ? 1.6 : 1; // denser along the band
+      if (rnd() > 0.55 * near) continue;
+      const r = m > 0.985 ? 1.6 : m > 0.93 ? 1.0 : 0.55, a = 0.25 + rnd() * 0.65;
+      const tint = rnd(); g.fillStyle = tint > 0.9 ? `rgba(255,214,170,${a})` : tint < 0.12 ? `rgba(170,200,255,${a})` : `rgba(255,255,255,${a})`;
+      g.beginPath(); g.arc(x, y, r, 0, 6.283); g.fill();
+      if (r > 1.2) { g.fillStyle = `rgba(200,220,255,${a * 0.15})`; g.beginPath(); g.arc(x, y, r * 4, 0, 6.283); g.fill(); }
+    }
+  };
+  draw(); let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(draw, 200); });
+  const par = () => { c.style.transform = `translate3d(0, ${-window.scrollY * 0.05}px, 0)`; };
+  window.addEventListener('scroll', par, { passive: true });
+  // mission telemetry
+  const clock = () => { const d = new Date(); $('#tmClock').textContent = d.toISOString().slice(11, 19); };
+  clock(); setInterval(clock, 1000);
+  fetch('/data/oni.json').then((r) => r.json()).then((o) => { const k = Object.keys(o.values).sort().pop(); const v = o.values[k]; $('#tmOni').textContent = `${v > 0 ? '+' : ''}${v.toFixed(2)} ${v >= 1.5 ? 'strong El Niño' : v >= 0.5 ? 'El Niño' : v <= -0.5 ? 'La Niña' : 'neutral'}`; }).catch(() => { $('#tmOni').textContent = '–'; });
+  fetch('/data/live_sample.json').then((r) => r.json()).then((d) => { $('#tmFires').textContent = `${d.points.length.toLocaleString()} sampled`; }).catch(() => { $('#tmFires').textContent = '–'; });
+}
+
 function initChrome() {
   const nav = $('#nav');
   const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 30);
@@ -198,7 +229,7 @@ function recompute() {
   S.clim = climatology(S.h, 2001, 2025);
   S.season = season(S.clim);
   S.trend = trend(S.rows);
-  S.outlook = null; S.wx = null; S.risk = null;
+  S.outlook = null; S.wx = null; S.risk = null; S.insights = null;
   $('#hudAoi').textContent = `${S.aoi ? S.aoi.label : R.name + ' · whole region'} · ${count.toLocaleString()} cells`;
   updateMapCells();
   renderKPIs();
@@ -305,6 +336,8 @@ function renderTab() {
     renderRegimes(el, S, aiCtx());
   } else if (S.tab === 'ask') {
     renderAsk(el, S, aiCtx());
+  } else if (S.tab === 'lab') {
+    renderLab(el, S, aiCtx());
   } else if (S.tab === 'live') {
     renderLive(el);
   } else if (S.tab === 'brief') {
@@ -327,7 +360,7 @@ function critLabel(se) {
 
 function onLive() { renderKPIs(); if (S.tab === 'outlook') renderTab(); }
 
-function aiCtx() { return { aoiKey, aoiBBox, fetchLive, M, renderKPIs }; }
+function aiCtx() { return { aoiKey, aoiBBox, fetchLive, M, renderKPIs, toast }; }
 
 function aoiKey() { return S.regionId + '|' + JSON.stringify(S.aoi && (S.aoi.bbox || S.aoi.coords)); }
 function aoiBBox() {
@@ -563,8 +596,12 @@ function initIntroVideo() {
 }
 
 async function boot() {
-  initChrome(); initIntroVideo(); initCounters(); initTimeline(); initPixelDemo();
-  startGlobe($('#globe')).catch(() => {});
+  initSpace(); initChrome(); initIntroVideo(); initCounters(); initTimeline(); initPixelDemo();
+  // realistic WebGL Earth (lazy-loaded three.js); falls back to the 2D canvas globe
+  import('./earth3d.js').then((m) => m.startEarth($('#globe'))).catch(() => {
+    const old = $('#globe'), c = old.cloneNode(false); old.replaceWith(c);
+    startGlobe(c).catch(() => {});
+  });
   readHash();
 
   const index = await fetch('/data/index.json').then((r) => r.json());
@@ -607,6 +644,7 @@ async function boot() {
     onAoi: (aoi) => { S.aoi = aoi; S.live = null; M.clearLive(); $('#liveBtn').classList.remove('on'); setToolUI('none'); recompute(); fetchLive().then(onLive).catch(() => {}); },
   });
   M.cells.setPalette(S.palette);
+  $('#baseSel').onchange = (e) => M.setBasemap(e.target.value);
   $$('.tool').forEach((b) => b.onclick = () => {
     const t = b.dataset.tool;
     setToolUI(t);

@@ -14,6 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
+  <canvas id="starfield" aria-hidden="true"></canvas>
   <div class="grain" aria-hidden="true"></div>
 
   <header class="nav" id="nav">
@@ -43,6 +44,12 @@
       <canvas id="globe" aria-label="Rotating globe showing live VIIRS fire detections and the MODIS / VIIRS satellite relay"></canvas>
       <div class="hero-inner">
         <p class="eyebrow reveal"><span class="pulse-dot"></span> NASA Space Apps 2026 · Harmonization of MODIS and VIIRS Hot Spots</p>
+        <div class="telemetry reveal" aria-label="Mission telemetry">
+          <span><i>UTC</i><b id="tmClock">--:--:--</b></span>
+          <span><i>Satellites</i><b>5 tracked</b></span>
+          <span><i>ENSO (ONI)</i><b id="tmOni">…</b></span>
+          <span><i>Live fires 24 h</i><b id="tmFires">…</b></span>
+        </div>
         <h1 class="reveal">Twenty-five years of fire.<br><span class="grad">One consistent record.</span></h1>
         <p class="lede reveal">Agnikaal fuses two decades of <b class="c-modis">MODIS</b> with the sharper, newer <b class="c-viirs">VIIRS</b> record into a single, sensor-agnostic <b>burning-activity calendar</b>, for any area you draw on the map.</p>
         <div class="hero-cta reveal">
@@ -185,6 +192,13 @@
               <div id="map" aria-label="Interactive map. Select an area of interest."></div>
               <div class="map-hud">
                 <div class="hud-chip" id="hudAoi">Whole region</div>
+                <select class="hud-chip base-sel" id="baseSel" aria-label="Basemap">
+                  <option value="dark">Dark map</option>
+                  <option value="viirs">NASA VIIRS · yesterday</option>
+                  <option value="marble">NASA Blue Marble</option>
+                  <option value="night">NASA Black Marble (night)</option>
+                  <option value="sat">Satellite (Esri)</option>
+                </select>
                 <div class="draw-hint hidden" id="drawHint"></div>
               </div>
               <div class="map-play">
@@ -206,6 +220,7 @@
               <button role="tab" class="tab tab-ai" data-tab="outlook" aria-selected="false">✨ AI Outlook</button>
               <button role="tab" class="tab tab-ai" data-tab="regimes" aria-selected="false">✨ Fire regimes</button>
               <button role="tab" class="tab tab-ai" data-tab="ask" aria-selected="false">✨ Ask Agni</button>
+              <button role="tab" class="tab tab-ai" data-tab="lab" aria-selected="false">🔬 Research Lab</button>
               <button role="tab" class="tab" data-tab="harm" aria-selected="false">Harmonization</button>
               <button role="tab" class="tab" data-tab="live" aria-selected="false">Live warning</button>
               <button role="tab" class="tab" data-tab="brief" aria-selected="false">Briefing</button>

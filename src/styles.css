@@ -421,3 +421,43 @@ div.member span { color: var(--muted); }
 @media print { .agni-fab { display: none !important; } }
 .o-cat.muted { color: var(--dim); font-size: 0.82rem; }
 .msg i.guard { display: block; margin-top: 6px; font-size: 0.74rem; color: var(--dim); font-style: italic; }
+
+/* RESEARCH LAB */
+.insights { display: grid; gap: 8px; margin-top: 10px; }
+.ins { display: grid; gap: 3px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: rgba(255,255,255,0.025); animation: fadeUp .4s ease both; }
+.ins b { font-family: var(--display); font-size: 1rem; line-height: 1.3; }
+.ins-stat { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+.ins-why { font-size: 0.8rem; color: var(--dim); }
+.badge { justify-self: start; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.04em; padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; text-transform: uppercase; }
+.b-strong { color: var(--bad); background: rgba(244,63,94,.08); } .b-sig { color: var(--warn); background: rgba(251,191,36,.08); }
+.b-sugg { color: var(--viirs); } .b-ns { color: var(--dim); } .b-check { color: var(--ok); background: rgba(74,222,128,.07); } .b-note { color: var(--modis); }
+.lab-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.lab-btn { text-align: left; display: grid; gap: 3px; padding: 12px 14px; border-radius: 12px; cursor: pointer; color: var(--text); background: linear-gradient(160deg, rgba(90,209,255,.08), rgba(169,139,255,.05)); border: 1px solid rgba(90,209,255,.25); font: inherit; transition: transform .2s, border-color .2s; }
+.lab-btn:hover { transform: translateY(-2px); border-color: var(--viirs); }
+.lab-btn b { font-family: var(--display); font-size: 0.92rem; } .lab-btn span { font-size: 0.74rem; color: var(--muted); }
+.methods { margin-top: 10px; font-size: 0.82rem; color: var(--muted); } .methods summary { cursor: pointer; color: var(--fire-3); }
+.methods p { margin-top: 8px; font-size: 0.82rem; line-height: 1.55; }
+@media (max-width: 560px) { .lab-actions { grid-template-columns: 1fr; } }
+
+/* SPACE THEME */
+body { background: #05060b; background-image: radial-gradient(1200px 700px at 80% -10%, rgba(255,106,43,0.10), transparent 60%), radial-gradient(900px 600px at -10% 40%, rgba(70,110,255,0.08), transparent 60%), radial-gradient(800px 500px at 60% 120%, rgba(169,139,255,0.07), transparent 60%); }
+#starfield { position: fixed; left: 0; top: 0; width: 100vw; z-index: -1; pointer-events: none; will-change: transform; }
+#globe.webgl { -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 62%, transparent 74%); mask-image: radial-gradient(circle at 50% 50%, #000 62%, transparent 74%); cursor: grab; }
+#globe.webgl:active { cursor: grabbing; }
+.hero::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(700px 500px at 18% 55%, rgba(5,6,11,0.85), transparent 70%); z-index: 1; }
+.telemetry { display: flex; flex-wrap: wrap; gap: 0; margin: -0.6rem 0 1.4rem; border: 1px solid rgba(90,209,255,0.22); border-radius: 12px; background: rgba(6,12,24,0.55); backdrop-filter: blur(8px); width: fit-content; max-width: 100%; overflow: hidden; }
+.telemetry span { display: flex; flex-direction: column; padding: 7px 14px; border-right: 1px solid rgba(90,209,255,0.14); }
+.telemetry span:last-child { border-right: 0; }
+.telemetry i { font-style: normal; font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(90,209,255,0.75); }
+.telemetry b { font-family: var(--mono); font-size: 0.82rem; font-weight: 600; color: var(--text); white-space: nowrap; }
+.panel, .toolbar, .kpi, .map-wrap, .pd-panel, .credits { box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 0 0 1px rgba(90,140,255,0.06), 0 20px 50px -30px rgba(40,90,255,0.35); }
+.panel, .toolbar, .kpi { background: linear-gradient(180deg, rgba(20,26,44,0.72), rgba(12,15,26,0.72)); }
+.base-sel { pointer-events: auto; margin-left: auto; color: var(--text); font: 500 0.8rem var(--font); cursor: pointer; }
+#map.sat + .map-hud .hud-chip, #map.sat ~ .map-legend { background: rgba(5,6,11,0.85); }
+.kicker::before { content: '◉ '; color: var(--viirs); }
+@media (max-width: 860px) {
+  .telemetry span { padding: 6px 10px; }
+  .telemetry span:nth-child(4) { display: none; }
+  #globe.webgl { -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 58%, transparent 72%); mask-image: radial-gradient(circle at 50% 50%, #000 58%, transparent 72%); }
+}
+@media (min-width: 861px) { .tabs { flex-wrap: wrap; overflow: visible; } }

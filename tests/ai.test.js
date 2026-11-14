@@ -70,3 +70,24 @@ test('Ask Agni (instant) answers from facts only', () => {
   assert.match(askAgniLite('Does El Niño matter here?', f), /El Niño/);
   assert.match(askAgniLite('hello', f), /try/i);
 });
+
+import { mannKendall, pettitt, spearman, autoInsights, notebook } from '../src/research.js';
+test('research stats: Mann-Kendall, Pettitt, Spearman', () => {
+  const xs = Array.from({ length: 25 }, (_, i) => 2001 + i);
+  const mk = mannKendall(xs, xs.map((x, i) => i * 3 + (i % 4)));
+  assert.ok(mk.p < 0.001 && mk.slope > 2);
+  const pt = pettitt(xs.map((_, i) => (i < 12 ? 10 + (i % 3) : 40 + (i % 3))));
+  assert.equal(pt.k, 11); assert.ok(pt.p < 0.01);
+  const sp = spearman(xs, xs.map((x) => -x));
+  assert.ok(Math.abs(sp.rho + 1) < 1e-9);
+});
+test('auto-insights finds a planted monthly trend and exports a valid notebook', () => {
+  const { R, oni } = region();
+  const h = harmonize(R, null);
+  // plant a strong rising trend in April
+  for (let y = 2001; y <= 2025; y++) h.H[(y - 2000) * 12 + 3] *= 1 + (y - 2001) * 0.15;
+  const ins = autoInsights(h, oni);
+  assert.ok(ins.tests.some((t) => /April burning is increasing/.test(t.title) && t.q < 0.05), ins.tests.map((t) => t.title).join(' | '));
+  const nb = JSON.parse(notebook({ h, region: { name: 'Testland' }, aoi: null }, 'year,month,harmonized_fcd\n2001,1,5', ins));
+  assert.equal(nb.nbformat, 4); assert.ok(nb.cells.length >= 8);
+});

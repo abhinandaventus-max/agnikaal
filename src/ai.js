@@ -241,6 +241,7 @@ export function buildFacts(S) {
   if (S.outlook && S.outlook.ninoEffect != null) f.elNinoEffectPct = Math.round(S.outlook.ninoEffect * 100);
   if (S.outlook) f.oniLatest = S.outlook.oniNow;
   if (S.aoiRegime) f.fireRegime = S.aoiRegime.name;
+  if (S.insights) f.findings = S.insights.tests.filter((t) => t.q != null && t.q < 0.05).slice(0, 4).map((t) => `${t.title} (${t.strength.toLowerCase()}, q=${t.q < 0.001 ? '<0.001' : t.q.toFixed(3)})`);
   return f;
 }
 
@@ -264,6 +265,10 @@ export function askAgniLite(question, f) {
     const key = f.outlook.filter((o) => !['Near normal', 'No clear signal'].includes(o.category));
     const lines = f.outlook.slice(0, 6).map((o) => `${o.month}: **${o.category}** (${o.pAbove}% chance above normal)`).join('; ');
     return `AI outlook for ${f.area}: ${lines}. ${key.length ? '' : 'No strong signal: expect a typical season. '}Backtested hit rate is about ${f.outlook[0].backtestHitRatePct ?? '–'}% (33% would be pure chance).${f.elNinoEffectPct != null ? ` In El Niño years this area's main fire months run ${f.elNinoEffectPct > 0 ? '+' : ''}${f.elNinoEffectPct}% vs other years, and the latest ENSO index is ${f.oniLatest}.` : ''}`;
+  }
+  if (has(q, 'changed', 'finding', 'insight', 'research', 'significant', 'discover', 'pattern', 'shift')) {
+    if (!f.findings) return 'Open the **Research Lab** tab and I will scan this area for significant changes.';
+    return f.findings.length ? `Statistically significant findings for ${f.area} (after false-discovery correction): ${f.findings.map((x) => `**${x}**`).join('; ')}.` : `No statistically significant change was found in ${f.area} after correcting for multiple tests: activity looks stable.`;
   }
   if (has(q, 'el nino', 'el niño', 'enso', 'la nina', 'la niña', 'ocean')) {
     return f.elNinoEffectPct == null ? 'There are not enough El Niño years with fires here to measure a reliable effect.' : `During El Niño years (ONI ≥ 0.5), fire activity in ${f.area}'s main fire months is **${f.elNinoEffectPct > 0 ? '+' : ''}${f.elNinoEffectPct}%** compared with other years. The latest ONI is **${f.oniLatest}**, ${f.oniLatest >= 1.5 ? 'a strong El Niño' : f.oniLatest >= 0.5 ? 'El Niño conditions' : f.oniLatest <= -0.5 ? 'La Niña conditions' : 'neutral'}.`;

@@ -41,6 +41,12 @@ MODIS has observed fires since 2000 but is near end of life; VIIRS has replaced 
 | **AI fire regimes** | Unsupervised k-means (k = 5) on every cell's normalised 12-month fire calendar, learning e.g. two-season crop-residue burning vs dry-season forest fires. Names are generated from the learned profiles. |
 | **Ask Agni** | An instant, grounded Q&A engine over the area's statistics, plus an optional on-device LLM (Llama 3.2 1B via WebLLM/WebGPU; free, private, nothing leaves the browser) that only *rephrases* retrieved facts. A **number + term guard** replaces any reply containing a number, month or risk level that is not in the data. |
 
+## Research Lab (for researchers, scientists and students)
+
+* **AI Auto-Insights:** an automated hypothesis scan for the selected area. It covers the long-term trend (Mann–Kendall/Theil–Sen), month-by-month trends, regime shifts (Pettitt), season timing (circular centroid trend), the El Niño link (Spearman vs NOAA ONI), a 2012 sensor-seam check and extreme years. p-values are controlled with **Benjamini–Hochberg FDR**. Example: over Punjab it finds October burning falling −46%/decade, November rising +57% and the season arriving **10 days later per decade**, the known shift after Punjab's 2009 groundwater act.
+* **Exports:** a ready-to-run **Jupyter/Colab notebook** with the area's data embedded (calendar, raw vs harmonized, trend tests, citations), an auto-written **methods paragraph**, **BibTeX** (Agnikaal, NASA FIRMS DOIs, algorithm papers) and the monthly CSV.
+* **NASA imagery:** the map can switch to **yesterday's VIIRS NOAA-20 true-colour image**, Blue Marble or Black Marble (NASA GIBS). The hero is a WebGL Earth built from NASA Blue/Black Marble textures with live fires.
+
 ## Harmonization method
 
 1. **Quality filter.** MODIS confidence ≥ 30; VIIRS nominal/high. Keep `type = 0` (presumed vegetation fire), which drops volcanoes, static industrial sources / gas flares, and offshore detections.

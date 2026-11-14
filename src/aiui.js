@@ -1,5 +1,6 @@
 // UI for the AI features: Outlook (forecast + fire weather), Fire regimes, Ask Agni chat.
-import { MONTHS } from './harmonize.js';
+import { MONTHS, monthlyRows, toCSV } from './harmonize.js';
+import { autoInsights, methodsText, BIBTEX, notebook } from './research.js';
 import { nice } from './charts.js';
 import { fireOutlook, latestOni, fireWeather, weeklyRisk, WX_LEVEL, fireRegimes, REGIME_COLORS, buildFacts, askAgniLite, agniSystemPrompt } from './ai.js';
 
@@ -119,7 +120,7 @@ function spark(p, color) {
 // ------------------------------------------------------------------ ASK AGNI
 let engine = null, engineModel = null, loading = null;
 const LLM_PREFS = ['Llama-3.2-1B-Instruct-q4f16_1-MLC', 'Qwen2.5-0.5B-Instruct-q4f16_1-MLC', 'Qwen2.5-1.5B-Instruct-q4f16_1-MLC'];
-const CHIPS = ['When is the fire season?', 'Is this week normal?', 'What do the next months look like?', 'Should we prepare crews?', 'Does El Niño matter here?', 'What was 2016 like?'];
+const CHIPS = ['What has changed here?', 'When is the fire season?', 'Is this week normal?', 'What do the next months look like?', 'Should we prepare crews?', 'Does El Niño matter here?', 'What was 2016 like?'];
 
 export function renderAsk(el, S, ctx) {
   S.chat ||= [{ role: 'assistant', content: `Hi, I'm **Agni**. Ask me anything about the fire history, season, risk or outlook of the area you've selected. I answer only from Agnikaal's data.` }];
@@ -136,7 +137,7 @@ export function renderAsk(el, S, ctx) {
   draw();
   const ask = async (q) => {
     if (!q.trim()) return;
-    ensureOutlook(S, ctx); ensureRegimes(S);
+    ensureOutlook(S, ctx); ensureRegimes(S); ensureInsights(S, ctx);
     if (/weather|wind|rain|risk|this week/i.test(q)) {
       try { await ensureWeather(S, ctx); S.risk = weeklyRisk({ wx: S.wx, clim: S.clim, month: new Date().getMonth(), live: S.live && S.liveFor === ctx.aoiKey() ? S.live : null }); } catch { /* offline */ }
     }
@@ -190,4 +191,40 @@ export function renderAsk(el, S, ctx) {
       S.chat.push({ role: 'assistant', content: `Could not load the on-device model (${e.message}). Instant mode still works.` }); draw();
     }
   });
+}
+
+// ------------------------------------------------------------------ RESEARCH LAB
+export function ensureInsights(S, ctx) {
+  const key = ctx.aoiKey() + '|' + (S.oni ? 1 : 0);
+  if (S.insights && S.insightsKey === key) return S.insights;
+  S.insights = autoInsights(S.h, S.oni); S.insightsKey = key;
+  return S.insights;
+}
+const BADGE = { Strong: 'b-strong', Significant: 'b-sig', Suggestive: 'b-sugg', 'Not significant': 'b-ns', Check: 'b-check', Notable: 'b-note' };
+function dl(name, text, type) { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); }
+export function renderLab(el, S, ctx) {
+  const ins = ensureInsights(S, ctx);
+  const name = S.aoi ? S.aoi.label : S.region.name;
+  const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
+  const shown = ins.tests.filter((t) => t.strength !== 'Not significant');
+  const hidden = ins.tests.length - shown.length;
+  el.innerHTML = `<div class="ask-head"><h4>🔬 Research Lab · AI Auto-Insights</h4><span class="engine">${ins.nSig} of ${ins.nHyp} hypotheses significant (FDR 5%)</span></div>
+    <div class="sub">The engine automatically tests ${ins.nHyp} hypotheses about <b>${esc(name)}</b> (long-term and month-by-month trends, regime shifts, season timing, El Niño link) plus data checks, then corrects for multiple testing (Benjamini–Hochberg) so nothing is a fluke of scanning many patterns.</div>
+    <div class="insights">${shown.map((t) => `<div class="ins"><span class="badge ${BADGE[t.strength]}">${t.strength}${t.q != null ? ` · q=${t.q < 0.001 ? '<0.001' : t.q.toFixed(3)}` : ''}</span>
+      <b>${esc(t.title)}</b><span class="ins-stat">${esc(t.stat)}</span><span class="ins-why">${esc(t.why)}</span></div>`).join('')}</div>
+    ${hidden ? `<p class="note">${hidden} further hypotheses were tested and are not significant here (that is a result too: no evidence of change).</p>` : ''}
+    <h5 class="ai-h">For researchers, scientists &amp; students</h5>
+    <div class="lab-actions">
+      <button class="lab-btn" id="labNb"><b>⬇ Jupyter / Colab notebook</b><span>Data embedded · calendar, trend tests, citations · runs as-is</span></button>
+      <button class="lab-btn" id="labMethods"><b>⧉ Copy methods paragraph</b><span>Auto-written, with this area's numbers, for your paper or report</span></button>
+      <button class="lab-btn" id="labBib"><b>⧉ Copy BibTeX</b><span>Agnikaal + NASA FIRMS DOIs + algorithm papers</span></button>
+      <button class="lab-btn" id="labJson"><b>⬇ Data (CSV)</b><span>Monthly harmonized + raw sensor series, 2001–2025</span></button>
+    </div>
+    <details class="methods"><summary>Preview methods paragraph</summary><p>${esc(methodsText(S, ins))}</p></details>`;
+  const csv = () => toCSV(monthlyRows(S.h, 2001, 2025));
+  const copy = async (t, msg) => { try { await navigator.clipboard.writeText(t); ctx.toast(msg); } catch { ctx.toast('Copy blocked by the browser: select the text in the preview instead'); } };
+  el.querySelector('#labNb').onclick = () => dl(`agnikaal-${slug}.ipynb`, notebook(S, csv(), ins), 'application/x-ipynb+json');
+  el.querySelector('#labMethods').onclick = () => copy(methodsText(S, ins), 'Methods paragraph copied');
+  el.querySelector('#labBib').onclick = () => copy(BIBTEX, 'BibTeX copied');
+  el.querySelector('#labJson').onclick = () => dl(`agnikaal-${slug}-monthly.csv`, csv(), 'text/csv');
 }
