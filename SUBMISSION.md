@@ -13,10 +13,11 @@ Satellites have tracked fire for 25 years, but the record is split. MODIS (2000â
 
 ## Project demonstration
 <!-- Upload a 30-second video OR a â‰¤7-slide deck and paste its public link here -->
-Live app: <VERCEL_URL>
+Live app: https://agnikaal.vercel.app
+Demo deck (7 slides, press P to save as PDF): https://agnikaal.vercel.app/deck.html
 
 ## Project (link to final project)
-<GITHUB_URL>
+https://github.com/abhinandaventus-max/agnikaal
 
 ## Project details
 **What it does.** Agnikaal turns NASA FIRMS MODIS and VIIRS active-fire hotspots into one consistent burning-activity calendar for any area on Earth that we have processed. Users pick a region, draw a box or polygon, or type a latitude/longitude and radius. They then get:

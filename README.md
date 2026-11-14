@@ -1,5 +1,7 @@
 # Agnikaal: Harmonized MODIS + VIIRS Fire Calendar
 
+**Live app: https://agnikaal.vercel.app · Deck: https://agnikaal.vercel.app/deck.html**
+
 **NASA Space Apps Challenge 2026 · Challenge: [Harmonization of MODIS and VIIRS Hot Spots](https://www.spaceappschallenge.org/2026/challenges/modis-and-viirs-hot-spots/) · Team AKASHA7 (Malappuram, India)**
 
 > *Agni* (fire) + *kāl* (time): a calendar of fire.
