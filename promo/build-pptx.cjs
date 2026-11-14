@@ -66,7 +66,7 @@ const link = (text, url, extra = {}) => ({ text, options: { hyperlink: { url, to
   s.addText('A web app that joins NASA’s old MODIS and new VIIRS fire satellites into one fair fire calendar, for any area you draw, with a live 7-day early warning.', { x: 0.6, y: 2.85, w: 6.6, h: 0.85, fontSize: 15, color: K.muted, margin: 0, isTextBox: true });
   s.addText([link('▶  agnikaal.vercel.app', LINKS.app, { bold: true }), { text: '      ' }, link('GitHub repository', LINKS.github, { bold: true })], { x: 0.6, y: 3.78, w: 6.8, h: 0.35, fontSize: 15, margin: 0, isTextBox: true });
 
-  s.addText('TEAM AKASHA7  ·  KERALA, INDIA', { x: 0.6, y: 4.45, w: 6, h: 0.3, fontSize: 12, bold: true, color: K.amber, charSpacing: 2, margin: 0, isTextBox: true });
+  s.addText('TEAM AKASHA7', { x: 0.6, y: 4.45, w: 6, h: 0.3, fontSize: 12, bold: true, color: K.amber, charSpacing: 2, margin: 0, isTextBox: true });
   const team = [
     ['abhinand.jpg', 'Abhinand', LINKS.abhinand],
     ['abhijith.jpg', 'Abhijith K S', null],
@@ -79,7 +79,7 @@ const link = (text, url, extra = {}) => ({ text, options: { hyperlink: { url, to
     s.addText(name, { x: x - 0.3, y: 6.3, w: 1.9, h: 0.32, fontSize: 15, bold: true, color: K.text, align: 'center', margin: 0, isTextBox: true });
     s.addText(url ? [link('LinkedIn ↗', url)] : [{ text: 'Team member', options: { color: K.muted } }], { x: x - 0.3, y: 6.62, w: 1.9, h: 0.28, fontSize: 12, align: 'center', margin: 0, isTextBox: true });
   });
-  s.addNotes('Hello judges. We are Team AKASHA7 from Kerala. Agnikaal means "fire" plus "time": a fire calendar. In one line: we turn NASA\'s two fire satellite records, MODIS and VIIRS, into one consistent fire history that anyone can explore for their own area, and we add a live early warning.');
+  s.addNotes('Hello judges. We are Team AKASHA7. Agnikaal means "fire" plus "time": a fire calendar. In one line: we turn NASA\'s two fire satellite records, MODIS and VIIRS, into one consistent fire history that anyone can explore for their own area, and we add a live early warning.');
 }
 
 // =============== 2. PROBLEM =================

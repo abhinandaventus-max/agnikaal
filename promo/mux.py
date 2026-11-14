@@ -24,16 +24,9 @@ for i, s in enumerate(scenes):
     filt.append(f"[{i}:a]aresample=48000,aformat=channel_layouts=stereo,adelay={ms}|{ms}[v{i}]")
     labels.append(f"[v{i}]")
 n = len(scenes)
-# 2) ambient bed: soft A-minor pad with slow swells, filtered and faded
-bed = ("aevalsrc='0.10*sin(2*PI*110*t)*(0.6+0.4*sin(2*PI*0.05*t))"
-       "+0.07*sin(2*PI*164.81*t)*(0.6+0.4*sin(2*PI*0.07*t+1))"
-       "+0.06*sin(2*PI*220*t)*(0.6+0.4*sin(2*PI*0.043*t+2))"
-       "+0.035*sin(2*PI*329.63*t)*(0.5+0.5*sin(2*PI*0.09*t))"
-       "+0.025*sin(2*PI*440*t)*(0.5+0.5*sin(2*PI*0.031*t+0.5))'"
-       f":s=48000:d={total:.2f}")
-filt.append(f"{bed},lowpass=f=1400,aecho=0.8:0.7:120|240:0.25|0.15,afade=t=in:d=2.5,afade=t=out:st={total-3.5:.2f}:d=3.5,volume=0.30,aformat=channel_layouts=stereo[bed]")
-filt.append("".join(labels) + f"amix=inputs={n}:normalize=0:dropout_transition=0,volume=1.0[voice]")
-filt.append("[voice][bed]amix=inputs=2:normalize=0,alimiter=limit=0.95,loudnorm=I=-16:TP=-1.5:LRA=11[out]")
+# 2) voice only (no music bed): gentle high-pass to drop rumble, then broadcast loudness
+filt.append("".join(labels) + f"amix=inputs={n}:normalize=0:dropout_transition=0,highpass=f=70,"
+            "acompressor=threshold=-20dB:ratio=2.5:attack=8:release=120,loudnorm=I=-16:TP=-1.5:LRA=9[out]")
 wav = os.path.join(R, "mix.wav")
 run(["ffmpeg", "-y", "-loglevel", "error", *inputs, "-filter_complex", ";".join(filt), "-map", "[out]", "-t", f"{total:.2f}", "-ar", "48000", wav])
 

@@ -3,14 +3,14 @@ Usage: python3 promo/voiceover.py <outdir>"""
 import asyncio, json, os, subprocess, sys
 import edge_tts
 
-VOICE, RATE = "en-US-AvaNeural", "+0%"
+VOICE, RATE = "en-IN-NeerjaExpressiveNeural", "+0%"
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
 
 
 async def one(item):
-    comm = edge_tts.Communicate(item["text"], VOICE, rate=RATE, boundary="WordBoundary")
+    comm = edge_tts.Communicate(item.get("say", item["text"]), VOICE, rate=RATE, boundary="WordBoundary")
     words, audio = [], bytearray()
     async for ch in comm.stream():
         if ch["type"] == "audio":

@@ -1,10 +1,18 @@
 [
-  {"id": "intro",   "text": "Meet Agni-kaal: a fire calendar for our planet, built by Team Akasha Seven for NASA Space Apps 2026."},
-  {"id": "problem", "text": "For twenty-five years, NASA satellites have watched fires from space. But the record is split. The newer VIIRS sensor sees far sharper pixels than the older MODIS, so the same fire can look seven times bigger. Join them, and history looks broken."},
-  {"id": "fix",     "text": "Agni-kaal fixes this. It puts every fire on one shared grid, and calibrates the old sensor to the new one, for the exact area you choose. One consistent record, from 2001 to today."},
-  {"id": "use",     "text": "Draw any area on the map, and instantly see its fire calendar: the busiest months, the critical season, the worst years, and the long-term trend."},
-  {"id": "live",    "text": "It also checks live NASA hotspots from the last seven days, and tells you if this week is normal, elevated, or extreme. Download it all as data, images, or a ready-made briefing."},
-  {"id": "proof",   "text": "It is tested, not guessed: a ninety-seven percent cross-validation score, seventy million NASA detections, and it finds real disasters, like Canada in 2023."},
-  {"id": "who",     "text": "Built for emergency managers, firefighters, land managers, and scientists."},
-  {"id": "team",    "text": "Created by Team Akasha Seven: Abhinand, Abhijith K S, and Annlia Lixon. Try it free at agni-kaal dot vercel dot app."}
+  {"id": "intro",   "text": "Meet Agnikaal: a fire calendar for our planet, built by Team AKASHA7 for NASA Space Apps 2026.",
+                    "say":  "Meet Agnikaal: a fire calendar for our planet, built by Team Aakaasha-Seven for NASA Space Apps 2026."},
+  {"id": "problem", "text": "For twenty-five years, NASA satellites have watched fires from space. But the record is split. The newer VIIRS sensor sees far sharper pixels than the older MODIS, so the same fire can look seven times bigger. Join them, and history looks broken.",
+                    "say":  "For twenty-five years, NASA satellites have watched fires from space. But the record is split. The newer Veers sensor sees far sharper pixels than the older Moh-diss, so the same fire can look seven times bigger. Join them, and history looks broken."},
+  {"id": "fix",     "text": "Agnikaal fixes this. It puts every fire on one shared grid, and calibrates the old sensor to the new one, for the exact area you choose. One consistent record, from 2001 to today.",
+                    "say":  "Agnikaal fixes this. It puts every fire on one shared grid, and calibrates the old sensor to the new one, for the exact area you choose. One consistent record, from 2001 to today."},
+  {"id": "use",     "text": "Draw any area on the map, and instantly see its fire calendar: the busiest months, the critical season, the worst years, and the long-term trend.",
+                    "say":  "Draw any area on the map, and instantly see its fire calendar: the busiest months, the critical season, the worst years, and the long-term trend."},
+  {"id": "live",    "text": "It also checks live NASA hotspots from the last seven days, and tells you if this week is normal, elevated, or extreme. Download it all as data, images, or a ready-made briefing.",
+                    "say":  "It also checks live NASA hotspots from the last seven days, and tells you if this week is normal, elevated, or extreme. Download it all as data, images, or a ready-made briefing."},
+  {"id": "proof",   "text": "It is tested, not guessed: a ninety-seven percent cross-validation score, seventy million NASA detections, and it finds real disasters, like Canada in 2023.",
+                    "say":  "It is tested, not guessed: a ninety-seven percent cross-validation score, seventy million NASA detections, and it finds real disasters, like Canada in 2023."},
+  {"id": "who",     "text": "Built for emergency managers, firefighters, land managers, and scientists.",
+                    "say":  "Built for emergency managers, firefighters, land managers, and scientists."},
+  {"id": "team",    "text": "Created by Team AKASHA7: Abhinand, Abhijith K S, and Annlia Lixon. Try it free at agnikaal.vercel.app.",
+                    "say":  "Created by Team Aakaasha-Seven: Abhinand, Abhijith K S, and Annlia Lixon. Try it free at agnikaal-dot-vercel-dot-app."}
 ]

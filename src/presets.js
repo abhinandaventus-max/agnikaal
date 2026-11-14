@@ -1,7 +1,7 @@
 // Curated "case files": real fire regimes inside the harmonized regions.
 export const CASES = [
   { id: 'punjab', region: 'india', tag: 'India · crop residue', title: 'Punjab–Haryana stubble belt', text: 'Paddy-residue burning after the kharif harvest. Watch Oct–Nov light up every year, and track whether policy has changed it.', aoi: { type: 'bbox', bbox: [73.8, 29.5, 77.2, 32.6] } },
-  { id: 'kerala', region: 'india', tag: 'India · home turf', title: 'Western Ghats, Kerala', text: 'Our home state. Dry-season forest and grassland fires peak Feb–Apr before the monsoon arrives.', aoi: { type: 'bbox', bbox: [74.8, 8.2, 77.5, 12.8] } },
+  { id: 'kerala', region: 'india', tag: 'India · forest fires', title: 'Western Ghats, Kerala', text: 'Dry-season forest and grassland fires peak Feb–Apr before the monsoon arrives.', aoi: { type: 'bbox', bbox: [74.8, 8.2, 77.5, 12.8] } },
   { id: 'northeast', region: 'india', tag: 'India · shifting cultivation', title: 'Northeast jhum belt', text: 'Mizoram, Manipur and Assam. Jhum fields are cleared with fire in a sharp Mar–Apr pulse.', aoi: { type: 'bbox', bbox: [91.5, 22.5, 95.6, 27.6] } },
   { id: 'central', region: 'india', tag: 'India · deciduous forest', title: 'Central India forests', text: 'Odisha and Chhattisgarh dry-deciduous forests: the subcontinent’s largest spring forest-fire season.', aoi: { type: 'bbox', bbox: [80.0, 18.0, 87.0, 23.0] } },
   { id: 'chaco', region: 'argentina', tag: 'Argentina · deforestation', title: 'Gran Chaco', text: 'Land-clearing fires in one of the world’s fastest-disappearing dry forests.', aoi: { type: 'bbox', bbox: [-64.5, -27.0, -58.0, -22.0] } },

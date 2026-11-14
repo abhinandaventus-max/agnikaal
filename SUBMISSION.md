@@ -1,7 +1,7 @@
 # Space Apps 2026 project submission: Team AKASHA7
 
 Paste each section into the matching field on the team's **Project** tab (Edit → Submit).
-Deadline: **Sunday 15 Nov 2026, 11:59 PM local time (Malappuram, IST)**.
+Deadline: **Sunday 15 Nov 2026, 11:59 PM IST**.
 
 ---
 
