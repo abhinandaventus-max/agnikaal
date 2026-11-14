@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agnikaal · Pitch Deck</title>
+  <meta name="description" content="Agnikaal: 7-slide project demonstration for NASA Space Apps 2026, Team AKASHA7." />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body class="deck">
+  <div class="deck-bar"><span id="slideNo">1 / 7</span><span class="hint">← → or swipe · P to print / save PDF</span><a href="/" class="btn btn-ghost sm">Open the app</a></div>
+
+  <section class="slide s-title">
+    <div class="s-inner">
+      <p class="kicker">NASA Space Apps 2026 · Harmonization of MODIS and VIIRS Hot Spots</p>
+      <h1>Agni<span class="grad">kaal</span></h1>
+      <p class="big">Twenty-five years of fire. <b>One consistent record.</b></p>
+      <p class="muted">A harmonized MODIS + VIIRS burning-activity calendar for any area you draw, with live early warning.</p>
+      <p class="team">Team <b>AKASHA7</b> · Malappuram, India · <span class="mono">agnikaal.vercel.app</span></p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="s-inner two-col">
+      <div>
+        <p class="kicker">01 · The problem</p>
+        <h2>Splice the sensors and history breaks.</h2>
+        <ul class="pts">
+          <li><b class="c-modis">MODIS</b> (2000 →) sees 1 km pixels and is near end of life.</li>
+          <li><b class="c-viirs">VIIRS</b> (2012 →) sees 375 m pixels, so one fire lights up about 7 pixels.</li>
+          <li>Raw counts over India jump <b class="c-fire" id="dSeam">5.4×</b> at the 2012 seam: a fake fire explosion.</li>
+          <li>Fire managers can't compare <i>this</i> season with history.</li>
+        </ul>
+      </div>
+      <figure><div id="dRaw" class="chart"></div><figcaption>India annual totals. Bars = Agnikaal harmonized; orange line = naive raw splice.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="s-inner">
+      <p class="kicker">02 · The harmonization engine</p>
+      <h2>Four steps until the sensor of origin no longer matters.</h2>
+      <ol class="steps4">
+        <li><b>Quality filter</b><span>conf ≥ 30 / nominal-high; vegetation fires only (type 0, no flares or volcanoes)</span></li>
+        <li><b>Common 1 km lattice</b><span>every detection snapped to 0.01° and de-duplicated per day → Fire Cell-Days</span></li>
+        <li><b>Adaptive overlap calibration</b><span>month-specific k̂ₘ from 14 overlap years, for the exact area drawn; empirical-Bayes shrinkage</span></li>
+        <li><b>Validate + bridge</b><span>leave-one-year-out CV live in the browser; NOAA-20 ↔ S-NPP bridge into the 7-day feed</span></li>
+      </ol>
+      <div class="formula mono">H<sub>y,m</sub> = FCD<sub>VIIRS</sub> (y ≥ 2012) &nbsp;|&nbsp; k̂<sub>m</sub>·FCD<sub>MODIS</sub> (y &lt; 2012) &nbsp;&nbsp; k̂<sub>m</sub> = (ΣV<sub>m</sub> + λk̄)/(ΣM<sub>m</sub> + λ)</div>
+      <p class="muted small">Data: NASA FIRMS MODIS C6.1 (2000–2025), VIIRS S-NPP C2 (2012–2025), NOAA-20 C2 (2018–2025), NOAA-20/21 NRT · <span id="dDet">10.9 M</span> detections processed</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="s-inner two-col">
+      <div>
+        <p class="kicker">03 · It works: validated</p>
+        <h2>Cross-validated, not assumed.</h2>
+        <div class="bigstats">
+          <div><b class="good" id="dR2">0.97</b><span>LOYO-CV R²<br>India, monthly</span></div>
+          <div><b class="good" id="dBias">+0.1%</b><span>harmonized<br>total bias</span></div>
+          <div><b class="bad" id="dNaive">−82%</b><span>naive raw-splice<br>bias</span></div>
+        </div>
+        <p class="muted">Each dot is one overlap month (2012–2025). Calibration factors vary by month and place: Punjab k̄ ≈ 3.7, because VIIRS catches the small crop-residue fires MODIS misses. That is why one global factor fails.</p>
+      </div>
+      <figure><div id="dScatter" class="chart sq"></div><figcaption>MODIS vs VIIRS fire cell-days per month, India. Gold = fitted k̄.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="s-inner two-col">
+      <div>
+        <p class="kicker">04 · The burning calendar</p>
+        <h2>Punjab: two harvests, two fire seasons.</h2>
+        <ul class="pts">
+          <li>Critical months <b class="c-fire" id="dCrit">May · Oct–Nov</b> hold <span id="dCritPct">94%</span> of burning.</li>
+          <li>Worst year <b id="dWorst">2016</b>; trend <b id="dTrend">–</b>.</li>
+          <li>Anomaly and percentile views, CVD-safe ramps, hover for every month.</li>
+          <li>Draw a box or polygon, or type lat/lon + radius.</li>
+        </ul>
+      </div>
+      <figure><div id="dCal" class="chart"></div><figcaption>Harmonized monthly fire cell-days 2001–2025, Punjab–Haryana belt.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="s-inner">
+      <p class="kicker">05 · From history to action</p>
+      <h2>Is this week normal for this place, this month?</h2>
+      <div class="feat-grid">
+        <div><b>Live early warning</b><span>NOAA-20/21 hotspots, static industrial sources removed, ranked vs 25 years and vs the last decade: Below normal → Extreme.</span></div>
+        <div><b>Fire-season clock</b><span>Peak timing, seasonality and critical months, so crews are in place before the window opens.</span></div>
+        <div><b>Trend you can trust</b><span>Theil–Sen + Mann–Kendall on a record with no sensor seam.</span></div>
+        <div><b>Exports</b><span>Monthly CSV, live hotspot CSV, calendar PNG, auto-written briefing, deep links.</span></div>
+        <div><b>Fire-pulse time-lapse</b><span>300 months of harmonized burning animated on the map.</span></div>
+        <div><b>Anywhere, any device</b><span>Desktop and mobile; 5 countries processed today; one command adds more.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide s-title">
+    <div class="s-inner">
+      <p class="kicker">06 · Impact</p>
+      <h2>One honest fire history for every place on Earth.</h2>
+      <p class="big">For district fire officers, firefighters, land managers and scientists, from Kerala's Western Ghats to Canada's boreal forest.</p>
+      <ul class="pts">
+        <li><b>Next:</b> global tiles, NOAA-21 overlap calibration, fire-weather (FWI) overlay, SMS alerts for registered areas.</li>
+        <li><b>Open:</b> MIT-licensed code, reproducible pipeline, NASA FIRMS data.</li>
+      </ul>
+      <p class="team mono">agnikaal.vercel.app · <span id="dGh">github.com</span></p>
+    </div>
+  </section>
+
+  <script type="module" src="/src/deck.js"></script>
+</body>
+</html>

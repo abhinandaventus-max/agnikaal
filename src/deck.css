@@ -1,0 +1,51 @@
+html { scroll-snap-type: y mandatory; }
+body.deck { background: #07080d; }
+.slide { min-height: 100svh; scroll-snap-align: start; display: flex; align-items: center; padding: 70px clamp(20px, 5vw, 80px) 40px; position: relative; overflow: hidden; }
+.slide::before { content: ''; position: absolute; inset: 0; background: radial-gradient(800px 400px at 85% 10%, rgba(255,106,43,.10), transparent 60%), radial-gradient(700px 400px at 0% 100%, rgba(90,209,255,.06), transparent 60%); pointer-events: none; }
+.s-inner { width: min(1200px, 100%); margin-inline: auto; position: relative; opacity: 0; transform: translateY(24px); transition: all .8s cubic-bezier(.2,.7,.2,1); }
+.slide.on .s-inner { opacity: 1; transform: none; }
+.s-title h1 { font-size: clamp(3.5rem, 11vw, 9rem); margin: .1em 0 .1em; }
+.big { font-size: clamp(1.2rem, 2.4vw, 1.9rem); color: #e4e7f1; max-width: 32ch; }
+.team { margin-top: 2rem; color: var(--muted); }
+.mono { font-family: var(--mono); }
+.small { font-size: .82rem; }
+.two-col { display: grid; grid-template-columns: 1fr 1.15fr; gap: clamp(24px, 4vw, 60px); align-items: center; }
+.pts { padding-left: 1.1em; font-size: clamp(1rem, 1.4vw, 1.18rem); color: #d4d8e6; }
+.pts li { margin-bottom: .6em; }
+figure { margin: 0; padding: 18px; border-radius: 18px; background: var(--panel); border: 1px solid var(--line); }
+figcaption { font-size: .78rem; color: var(--muted); margin-top: 8px; font-family: var(--mono); }
+.chart svg { width: 100%; height: auto; overflow: visible; display: block; }
+.chart svg text { fill: var(--muted); font-family: var(--mono); font-size: 10px; }
+.chart .axis path, .chart .axis line { stroke: var(--line-2); }
+.chart.sq { max-width: 440px; margin: auto; }
+.steps4 { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; counter-reset: s; margin: 2rem 0; }
+.steps4 li { counter-increment: s; padding: 20px; border-radius: 16px; border: 1px solid var(--line); background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.01)); }
+.steps4 li::before { content: counter(s); display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(255,106,43,.15); color: var(--fire-2); font-family: var(--display); font-weight: 700; margin-bottom: 12px; }
+.steps4 b { display: block; font-family: var(--display); font-size: 1.1rem; margin-bottom: 6px; }
+.steps4 span { font-size: .9rem; color: var(--muted); }
+.formula { padding: 16px 20px; border-radius: 14px; border: 1px dashed rgba(255,179,71,.35); background: rgba(255,140,50,.04); font-size: clamp(.8rem, 1.3vw, 1rem); }
+.bigstats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 1.5rem 0; }
+.bigstats div { padding: 16px; border-radius: 14px; border: 1px solid var(--line); background: rgba(255,255,255,.02); }
+.bigstats b { display: block; font-family: var(--display); font-size: clamp(1.8rem, 3.6vw, 2.8rem); }
+.bigstats span { font-size: .78rem; color: var(--muted); }
+.good { color: var(--ok); } .bad { color: var(--bad); }
+.feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 2rem; }
+.feat-grid div { padding: 22px; border-radius: 16px; border: 1px solid var(--line); background: rgba(255,255,255,.025); }
+.feat-grid b { display: block; font-family: var(--display); font-size: 1.15rem; margin-bottom: 6px; color: var(--fire-3); }
+.feat-grid span { color: #c9cede; font-size: .95rem; }
+.deck-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; gap: 16px; padding: 12px clamp(16px, 4vw, 40px); background: rgba(7,8,13,.7); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: .8rem; color: var(--muted); }
+.deck-bar .hint { margin-right: auto; }
+@media (max-width: 860px) {
+  .two-col, .steps4, .feat-grid, .bigstats { grid-template-columns: 1fr; }
+  .deck-bar .hint { display: none; }
+  .deck-bar span:first-child { margin-right: auto; }
+  html { scroll-snap-type: none; }
+}
+@media print {
+  @page { size: 1600px 900px; margin: 0; }
+  html, body.deck { background: #07080d !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .deck-bar { display: none; }
+  .slide { height: 900px; min-height: 0; page-break-after: always; break-after: page; }
+  .s-inner { opacity: 1 !important; transform: none !important; }
+  .grain { display: none; }
+}

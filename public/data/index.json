@@ -1,0 +1,26 @@
+[
+ {
+  "id": "argentina",
+  "name": "Argentina",
+  "bbox": [
+   -73.25,
+   -55.0,
+   -53.5,
+   -21.75
+  ],
+  "detections": 5227712,
+  "seamJump": 2.319515742642026
+ },
+ {
+  "id": "india",
+  "name": "India",
+  "bbox": [
+   68.5,
+   6.75,
+   97.5,
+   35.25
+  ],
+  "detections": 10923723,
+  "seamJump": 5.387029914816254
+ }
+]

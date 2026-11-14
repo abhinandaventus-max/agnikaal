@@ -1,0 +1,13 @@
+// Curated "case files": real fire regimes inside the harmonized regions.
+export const CASES = [
+  { id: 'punjab', region: 'india', tag: 'India · crop residue', title: 'Punjab–Haryana stubble belt', text: 'Paddy-residue burning after the kharif harvest. Watch Oct–Nov light up every year, and track whether policy has changed it.', aoi: { type: 'bbox', bbox: [73.8, 29.5, 77.2, 32.6] } },
+  { id: 'kerala', region: 'india', tag: 'India · home turf', title: 'Western Ghats, Kerala', text: 'Our home state. Dry-season forest and grassland fires peak Feb–Apr before the monsoon arrives.', aoi: { type: 'bbox', bbox: [74.8, 8.2, 77.5, 12.8] } },
+  { id: 'northeast', region: 'india', tag: 'India · shifting cultivation', title: 'Northeast jhum belt', text: 'Mizoram, Manipur and Assam. Jhum fields are cleared with fire in a sharp Mar–Apr pulse.', aoi: { type: 'bbox', bbox: [91.5, 22.5, 95.6, 27.6] } },
+  { id: 'central', region: 'india', tag: 'India · deciduous forest', title: 'Central India forests', text: 'Odisha and Chhattisgarh dry-deciduous forests: the subcontinent’s largest spring forest-fire season.', aoi: { type: 'bbox', bbox: [80.0, 18.0, 87.0, 23.0] } },
+  { id: 'chaco', region: 'argentina', tag: 'Argentina · deforestation', title: 'Gran Chaco', text: 'Land-clearing fires in one of the world’s fastest-disappearing dry forests.', aoi: { type: 'bbox', bbox: [-64.5, -27.0, -58.0, -22.0] } },
+  { id: 'parana', region: 'argentina', tag: 'Argentina · wetlands', title: 'Paraná Delta wetlands', text: 'The 2008 delta fires sent smoke over Buenos Aires; drought brought them back in 2020–22. Switch to Anomaly and find both.', aoi: { type: 'bbox', bbox: [-61.0, -34.4, -58.4, -32.0] } },
+  { id: 'blacksummer', region: 'australia', tag: 'Australia · megafire', title: 'Black Summer, NSW', text: 'The 2019–20 megafires. Check the anomaly view: Dec 2019 lands far outside the 25-year envelope.', aoi: { type: 'bbox', bbox: [148.0, -37.6, 153.7, -28.2] } },
+  { id: 'kimberley', region: 'australia', tag: 'Australia · savanna', title: 'Top End savanna', text: 'Early-dry-season prescribed burning versus late-dry-season wildfire: the fire calendar shows the management shift.', aoi: { type: 'bbox', bbox: [129.0, -18.0, 137.0, -11.0] } },
+  { id: 'california', region: 'united_states', tag: 'USA · wildfire', title: 'California', text: 'From the 2018 Camp Fire to the 2020 August Complex, the summer and autumn fire season keeps getting longer.', aoi: { type: 'bbox', bbox: [-124.5, 32.5, -114.1, 42.0] } },
+  { id: 'quebec', region: 'canada', tag: 'Canada · boreal', title: 'Québec 2023', text: 'Canada’s worst fire year on record. June 2023 is off the colour scale in every view.', aoi: { type: 'bbox', bbox: [-80.0, 47.5, -68.0, 53.5] } },
+];

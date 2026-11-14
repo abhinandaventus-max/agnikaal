@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agnikaal · Harmonized Fire Calendar</title>
+  <meta name="description" content="Agnikaal harmonizes 25 years of NASA MODIS and VIIRS active-fire hotspots into one sensor-agnostic burning-activity calendar for any area you draw. NASA Space Apps 2026 · Team AKASHA7." />
+  <meta name="theme-color" content="#07080d" />
+  <meta property="og:title" content="Agnikaal · Harmonized MODIS + VIIRS Fire Calendar" />
+  <meta property="og:description" content="One consistent fire record from 2000 to today. Draw any area, see its burning calendar, anomalies, critical periods and live hotspots." />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="nav" id="nav">
+    <a class="brand" href="#top" aria-label="Agnikaal home">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <defs><linearGradient id="fl" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff4d1c"/><stop offset="1" stop-color="#ffd166"/></linearGradient></defs>
+        <ellipse cx="20" cy="22" rx="17" ry="7" fill="none" stroke="#5ad1ff" stroke-width="1.4" opacity=".8" transform="rotate(-18 20 22)"/>
+        <path d="M20 5c3 6 9 9 9 17a9 9 0 0 1-18 0c0-5 3-7 4-11 1 3 2 4 4 5-1-4-1-7 1-11z" fill="url(#fl)"/>
+        <circle cx="35.5" cy="16" r="2.2" fill="#5ad1ff"/>
+      </svg>
+      <span>Agni<b>kaal</b></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#problem">Problem</a>
+      <a href="#method">Method</a>
+      <a href="#explorer">Explorer</a>
+      <a href="#cases">Case files</a>
+      <a href="#about">About</a>
+    </nav>
+    <a class="btn btn-fire nav-cta" href="#explorer">Launch explorer</a>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <canvas id="globe" aria-label="Rotating globe showing live VIIRS fire detections and the MODIS / VIIRS satellite relay"></canvas>
+      <div class="hero-inner">
+        <p class="eyebrow reveal"><span class="pulse-dot"></span> NASA Space Apps 2026 · Harmonization of MODIS and VIIRS Hot Spots</p>
+        <h1 class="reveal">Twenty-five years of fire.<br><span class="grad">One consistent record.</span></h1>
+        <p class="lede reveal">Agnikaal fuses two decades of <b class="c-modis">MODIS</b> with the sharper, newer <b class="c-viirs">VIIRS</b> record into a single, sensor-agnostic <b>burning-activity calendar</b>, for any area you draw on the map.</p>
+        <div class="hero-cta reveal">
+          <a class="btn btn-fire" href="#explorer">Open the fire calendar <span aria-hidden="true">→</span></a>
+          <a class="btn btn-ghost" href="#method">How harmonization works</a>
+        </div>
+        <dl class="hero-stats reveal">
+          <div><dt><span class="count" data-to="26">0</span></dt><dd>years harmonized<br>2000 → 2025 + live</dd></div>
+          <div><dt><span class="count" data-to="3">0</span></dt><dd>satellite sensors<br>bridged into one scale</dd></div>
+          <div><dt><span class="count" id="statDet" data-to="0">0</span><small>M</small></dt><dd>NASA FIRMS detections<br>processed</dd></div>
+          <div><dt><span class="count" data-to="7">0</span><small>days</small></dt><dd>live NOAA-20/21<br>early warning</dd></div>
+        </dl>
+      </div>
+      <div class="hero-legend" aria-hidden="true">
+        <span><i style="background:#ff6a2b"></i>Live VIIRS hotspots (last 24 h)</span>
+        <span><i style="background:#a98bff"></i>Terra / Aqua · MODIS</span>
+        <span><i style="background:#5ad1ff"></i>S-NPP / NOAA-20 / NOAA-21 · VIIRS</span>
+      </div>
+      <a href="#problem" class="scroll-hint" aria-label="Scroll down"><span></span></a>
+    </section>
+
+    <!-- SENSOR RELAY -->
+    <section class="relay section" aria-labelledby="relayTitle">
+      <div class="wrap">
+        <p class="kicker reveal">The sensor relay</p>
+        <h2 id="relayTitle" class="reveal">MODIS is retiring. VIIRS carries the torch.<br><span class="muted">Splice them naively and history breaks.</span></h2>
+        <div class="timeline reveal" id="timeline" role="img" aria-label="Timeline of satellite fire sensors from 2000 to 2026"></div>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="section" id="problem" aria-labelledby="problemTitle">
+      <div class="wrap grid-2">
+        <div>
+          <p class="kicker reveal">01 · The split record</p>
+          <h2 id="problemTitle" class="reveal">Same fire. <span class="c-modis">1 pixel</span> vs <span class="c-viirs">7 pixels.</span></h2>
+          <p class="reveal">MODIS sees Earth in 1 km pixels; VIIRS in 375 m pixels, so one fire front lights up several VIIRS pixels where MODIS flags one. The sensors also differ in sensitivity, overpass time and revisit, and the Terra and Aqua orbits have drifted since 2020.</p>
+          <p class="reveal">If you splice raw counts, every chart shows a fake <b>“fire explosion” in 2012</b>, the year VIIRS starts. Fire managers comparing <i>this</i> season against history get the wrong answer.</p>
+          <ul class="facts reveal">
+            <li><b>1 km</b><span>MODIS pixel (Terra 2000 →, Aqua 2002 →)</span></li>
+            <li><b>375 m</b><span>VIIRS I-band pixel (S-NPP 2012 →, NOAA-20 2018 →, NOAA-21 2023 →)</span></li>
+            <li><b id="factJump">≈ 5×</b><span>raw-count jump at the 2012 seam over India</span></li>
+          </ul>
+        </div>
+        <div class="pixel-demo reveal" id="pixelDemo" aria-label="Animated comparison of a MODIS 1 km pixel grid and a VIIRS 375 m pixel grid over the same fire">
+          <div class="pd-panel"><h4 class="c-modis">MODIS · 1 km</h4><canvas id="pdModis" width="300" height="300"></canvas><p><b id="pdM">0</b> fire pixels</p></div>
+          <div class="pd-panel"><h4 class="c-viirs">VIIRS · 375 m</h4><canvas id="pdViirs" width="300" height="300"></canvas><p><b id="pdV">0</b> fire pixels</p></div>
+          <div class="pd-panel pd-h"><h4 class="c-fire">Agnikaal · common 1 km lattice</h4><canvas id="pdHarm" width="300" height="300"></canvas><p><b id="pdH">0</b> fire cell-days, both sensors</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- METHOD -->
+    <section class="section method" id="method" aria-labelledby="methodTitle">
+      <div class="wrap">
+        <p class="kicker reveal">02 · The harmonization engine</p>
+        <h2 id="methodTitle" class="reveal">Four steps until the sensor of origin <span class="grad">no longer matters.</span></h2>
+        <ol class="steps">
+          <li class="step reveal"><span class="step-n">1</span><h3>Quality filter</h3><p>MODIS confidence ≥ 30 %, VIIRS nominal/high. Keep <code>type = 0</code> vegetation fires only, which drops volcanoes, gas flares, industrial static sources and offshore detections.</p></li>
+          <li class="step reveal"><span class="step-n">2</span><h3>Common 1 km lattice</h3><p>Every detection from every satellite is snapped to a 0.01° grid and de-duplicated per day into <b>Fire Cell-Days (FCD)</b>. This removes pixel-size and repeat-overpass inflation at the source.</p></li>
+          <li class="step reveal"><span class="step-n">3</span><h3>Adaptive overlap calibration</h3><p>For <b>your</b> area, 14 overlap years (2012–2025) give a month-specific MODIS→VIIRS factor <code>kₘ</code>, shrunk toward the annual ratio (empirical Bayes) so sparse months stay stable. 2001–2011 becomes VIIRS-equivalent, with an uncertainty band.</p></li>
+          <li class="step reveal"><span class="step-n">4</span><h3>Live validation + bridge</h3><p>Leave-one-year-out cross-validation scores every calibration in your browser. A NOAA-20 ↔ S-NPP bridge carries the record into the live 7-day feed for early warning.</p></li>
+        </ol>
+        <div class="formula reveal" aria-label="Harmonization formula">
+          <span>H<sub>y,m</sub> =</span>
+          <span class="f-case"><span><b class="c-viirs">FCD<sub>VIIRS</sub></b> &nbsp;if y ≥ 2012</span><span><b class="c-fire">k̂<sub>m</sub></b> · <b class="c-modis">FCD<sub>MODIS</sub></b> &nbsp;if y &lt; 2012</span></span>
+          <span class="f-k">k̂<sub>m</sub> = (ΣV<sub>m</sub> + λ·k̄) / (ΣM<sub>m</sub> + λ)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPLORER -->
+    <section class="section explorer" id="explorer" aria-labelledby="explorerTitle">
+      <div class="wrap wide">
+        <div class="ex-head">
+          <div>
+            <p class="kicker">03 · Fire calendar explorer</p>
+            <h2 id="explorerTitle">Draw an area. Read its fire history.</h2>
+          </div>
+          <div class="ex-region">
+            <label for="regionSel">Region</label>
+            <select id="regionSel"></select>
+          </div>
+        </div>
+
+        <div class="toolbar" role="toolbar" aria-label="Area of interest tools">
+          <div class="seg" role="group" aria-label="Area selection">
+            <button class="tool active" data-tool="region" title="Whole region">◎ Whole region</button>
+            <button class="tool" data-tool="rect" title="Tap two corners on the map">▭ Draw box</button>
+            <button class="tool" data-tool="poly" title="Tap vertices, then Finish">⬠ Draw polygon</button>
+            <button class="tool" data-tool="point" title="Enter latitude / longitude">⊕ Lat / Lon</button>
+          </div>
+          <div class="seg" role="group" aria-label="Years">
+            <label class="mini">Years <select id="yA"></select> – <select id="yB"></select></label>
+          </div>
+          <div class="seg" role="group" aria-label="View mode">
+            <button class="mode active" data-mode="count">Count</button>
+            <button class="mode" data-mode="anom">Anomaly</button>
+            <button class="mode" data-mode="pct">Percentile</button>
+          </div>
+          <div class="seg" role="group" aria-label="Color ramp">
+            <label class="mini">Ramp <select id="palSel">
+              <option value="inferno">Inferno</option>
+              <option value="cividis">Cividis (CVD-safe)</option>
+              <option value="viridis">Viridis (CVD-safe)</option>
+              <option value="ylorrd">Ember</option>
+            </select></label>
+          </div>
+          <label class="switch" title="Compare harmonized record with naive raw-count splice">
+            <input type="checkbox" id="rawToggle" /><span class="track"><span class="thumb"></span></span><span class="lbl">Raw splice</span>
+          </label>
+        </div>
+
+        <div class="point-form hidden" id="pointForm">
+          <label>Lat <input type="number" id="pLat" step="0.01" value="30.9" /></label>
+          <label>Lon <input type="number" id="pLon" step="0.01" value="75.85" /></label>
+          <label>Radius km <input type="number" id="pRad" step="5" min="10" max="500" value="75" /></label>
+          <button class="btn btn-fire sm" id="pGo">Analyse</button>
+          <button class="btn btn-ghost sm" id="pMe">Use my location</button>
+        </div>
+
+        <div class="ex-grid">
+          <div class="map-col">
+            <div class="map-wrap">
+              <div id="map" aria-label="Interactive map. Select an area of interest."></div>
+              <div class="map-hud">
+                <div class="hud-chip" id="hudAoi">Whole region</div>
+                <div class="draw-hint hidden" id="drawHint"></div>
+              </div>
+              <div class="map-play">
+                <button class="play" id="playBtn" aria-label="Play fire time-lapse">▶</button>
+                <div class="play-meta"><b id="playDate">Fire pulse 2001 → 2025</b><div class="play-bar"><span id="playProg"></span></div></div>
+                <button class="chip" id="liveBtn" title="Show live hotspots, last 7 days">● Live 7 d</button>
+              </div>
+              <div class="map-loading" id="mapLoading"><div class="spinner"></div><span>Loading harmonized tiles…</span></div>
+            </div>
+            <div class="map-legend" id="mapLegend"></div>
+          </div>
+
+          <div class="ana-col">
+            <div class="kpis" id="kpis"></div>
+            <div class="tabs" role="tablist" aria-label="Analytics views">
+              <button role="tab" class="tab active" data-tab="calendar" aria-selected="true">Calendar</button>
+              <button role="tab" class="tab" data-tab="season" aria-selected="false">Season clock</button>
+              <button role="tab" class="tab" data-tab="trend" aria-selected="false">Trend</button>
+              <button role="tab" class="tab" data-tab="harm" aria-selected="false">Harmonization</button>
+              <button role="tab" class="tab" data-tab="live" aria-selected="false">Live warning</button>
+              <button role="tab" class="tab" data-tab="brief" aria-selected="false">Briefing</button>
+            </div>
+            <div class="panel" id="panel" role="tabpanel"></div>
+            <div class="exports">
+              <button class="btn btn-ghost sm" id="dlCsv">⬇ Monthly CSV</button>
+              <button class="btn btn-ghost sm" id="dlHot">⬇ Hotspots CSV</button>
+              <button class="btn btn-ghost sm" id="dlPng">⬇ Calendar PNG</button>
+              <button class="btn btn-ghost sm" id="dlPrint">⎙ Print briefing</button>
+              <button class="btn btn-ghost sm" id="share">⧉ Share link</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASE FILES -->
+    <section class="section" id="cases" aria-labelledby="casesTitle">
+      <div class="wrap">
+        <p class="kicker reveal">04 · Case files</p>
+        <h2 id="casesTitle" class="reveal">Start from a fire story.</h2>
+        <div class="cases" id="caseGrid"></div>
+      </div>
+    </section>
+
+    <!-- WHO -->
+    <section class="section who" aria-labelledby="whoTitle">
+      <div class="wrap">
+        <p class="kicker reveal">05 · Built for the people on the line</p>
+        <h2 id="whoTitle" class="reveal">From a district control room to a research desk.</h2>
+        <div class="who-grid">
+          <article class="reveal"><h3>Emergency managers</h3><p>See whether this week's pace is <b>typical, elevated or extreme</b> for this time of year, and pre-position crews before the critical window opens.</p></article>
+          <article class="reveal"><h3>Firefighters</h3><p>Live NOAA-20/21 hotspots with day/night flags and FRP. Export them to CSV for field GIS or offline use.</p></article>
+          <article class="reveal"><h3>Land managers &amp; agriculture</h3><p>Track crop-residue burning seasons (Punjab, Chaco, Cerrado) year over year with one comparable unit.</p></article>
+          <article class="reveal"><h3>Scientists</h3><p>Transparent method, cross-validated calibration, uncertainty bands and raw sensor series side by side. Reproducible from the open pipeline.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section about" id="about" aria-labelledby="aboutTitle">
+      <div class="wrap grid-2">
+        <div>
+          <p class="kicker reveal">About</p>
+          <h2 id="aboutTitle" class="reveal">Team AKASHA7 · Malappuram, India</h2>
+          <p class="reveal">“Agnikaal” joins two Sanskrit words, <i>agni</i> (fire) and <i>kāl</i> (time): a calendar of fire. We built it for NASA Space Apps 2026 to give anyone, from a forest range officer in Kerala to a researcher in Buenos Aires, one honest view of how burning has changed where they live.</p>
+          <div class="hero-cta reveal">
+            <a class="btn btn-ghost" id="ghLink" href="https://github.com/" target="_blank" rel="noopener">View source on GitHub</a>
+            <a class="btn btn-ghost" href="https://www.spaceappschallenge.org/2026/challenges/modis-and-viirs-hot-spots/" target="_blank" rel="noopener">The challenge</a>
+          </div>
+        </div>
+        <div class="credits reveal">
+          <h4>Data &amp; credits</h4>
+          <ul>
+            <li><a href="https://www.earthdata.nasa.gov/data/tools/firms" target="_blank" rel="noopener">NASA FIRMS</a>: MODIS C6.1 (MCD14), VIIRS S-NPP C2, NOAA-20 C2, NOAA-21 C2 active fire archives and NRT feeds. LANCE / Earthdata.</li>
+            <li>Basemap © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors, © <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>.</li>
+            <li>Natural Earth via <code>world-atlas</code>; Leaflet; D3. Color ramps: Matplotlib inferno/viridis, cividis (Nuñez et al. 2018).</li>
+            <li>Giglio et al. (2016) MODIS C6 fire products; Schroeder et al. (2014) VIIRS 375 m active fire algorithm.</li>
+          </ul>
+          <p class="fine">NASA does not endorse this project. Fire Cell-Days are an analysis unit, not burned area. Always check official alerts.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>Agnikaal · NASA Space Apps Challenge 2026 · Team AKASHA7</span>
+    <span id="buildInfo"></span>
+  </footer>
+
+  <div class="tooltip" id="tip" role="status" aria-live="polite"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
