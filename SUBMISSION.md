@@ -10,10 +10,10 @@ Deadline: **Sunday 15 Nov 2026, 11:59 PM IST** (local time of the team's Local E
 Agnikaal: Harmonized MODIS + VIIRS Fire Calendar
 
 ## High-Level Project Summary
-Satellites have tracked fire for 25 years, but the record is split. MODIS (2000→) sees 1 km pixels; VIIRS (2012→) sees 375 m pixels and flags several pixels for every fire MODIS sees once. Splice them and history breaks: over India, raw counts jump 5.4× in 2012. Agnikaal ("agni" = fire, "kāl" = time) fixes this. Our pipeline filters NASA FIRMS hotspots to vegetation fires, snaps every detection from every satellite onto a common 1 km grid and counts each place once per day ("Fire Cell-Days"). For any area a user draws, it calibrates MODIS to VIIRS month by month from 14 overlap years and cross-validates the result live (R² 0.92–0.98; a naive splice is wrong by 70–82%). The result is one consistent monthly fire record from 2001 to today for 69.8 million NASA detections in India, Argentina, Australia, the USA and Canada. The web app turns it into a burning-activity calendar, fire-season clock, tested trends and a live 7-day early warning. A free in-browser AI layer adds a backtested 6-month outlook using the El Niño index, a fire-weather risk score, machine-learned fire regimes, the Ask Agni assistant and a Research Lab for scientists (auto-tested insights, weather drivers, similar places, an extreme-event finder, Colab and Google Earth exports). It gives emergency managers, firefighters, land managers and researchers one honest fire history to act on.
+Satellites have tracked fire for 25 years, but the record is split: MODIS (2000→) sees 1 km pixels, VIIRS (2012→) sees 375 m pixels, so the same fire looks several times bigger. Joined naively, history breaks; over India raw counts jump 5.4× in 2012. Agnikaal ("agni" = fire, "kāl" = time) fixes this. It puts every NASA FIRMS hotspot on one 1 km grid, counts each place once per day, and calibrates MODIS to VIIRS month by month for any area a user draws, cross-validated live (R² 0.92–0.98, versus 70–82% error for a naive splice). The result is one consistent fire record from 2001 to today, built from 69.8 million detections in five countries. The web app shows it as a burning-activity calendar, fire-season clock, tested trends and a live 7-day early warning. Free in-browser AI adds a backtested 6-month outlook using El Niño, fire-weather risk, machine-learned fire regimes, the Ask Agni assistant and a Research Lab for scientists (tested insights, weather drivers, similar places, event finder, Colab and Google Earth exports). It gives fire managers and researchers one honest fire history to act on.
 
 ## Link to Project Demo
-30-second video demo (English captions): DRIVE_DEMO_LINK
+30-second video demo (English captions): https://drive.google.com/file/d/1WVxDybsetFUIStC6GJ7Qv4JM-XVInxsp/view
 
 ## Link to Final Project
 https://agnikaal.vercel.app
@@ -22,8 +22,9 @@ https://agnikaal.vercel.app
 **Links**
 - Live web app: https://agnikaal.vercel.app
 - Source code (MIT): https://github.com/abhinandaventus-max/agnikaal
-- 7-slide presentation (PDF/PPTX): DRIVE_DECK_LINK
-- 2-minute narrated walkthrough video: DRIVE_FULL_VIDEO_LINK
+- 7-slide presentation (PDF/PPTX): https://drive.google.com/file/d/1mYJH0oBNqOKTd9hbV5J4TKjh9CnWtPZd/view (PPTX: https://drive.google.com/file/d/1MTCFmaQIfX9Ko_-aE4gMWNqbT94RBYEI/view)
+- 2-minute narrated walkthrough video: https://drive.google.com/file/d/1RgVSB50dkhinbHisOcHjPT_qcl-SUgba/view
+- Google Drive folder with all files: https://drive.google.com/drive/folders/1bg_DsqYTLtsNw66qKwfVcNnXYPAA5nwB
 - All files are also attached to the GitHub release: https://github.com/abhinandaventus-max/agnikaal/releases/tag/v1.0
 
 **What it does.** Agnikaal turns NASA FIRMS MODIS and VIIRS active-fire hotspots into one consistent burning-activity calendar for any area in the five processed countries. Users pick a region, draw a box or polygon, or type a latitude/longitude and radius, and get:
