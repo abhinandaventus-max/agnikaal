@@ -35,6 +35,15 @@
   .who-card { width:400px; height:300px; padding:36px; box-sizing:border-box; }
   .who-card svg { width:84px; height:84px; }
   .who-card h3 { font-family:'Space Grotesk'; font-size:38px; margin:22px 0 0; font-weight:600; }
+  .o-card2 { flex:1; padding:18px 18px; border-radius:18px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.03); }
+  .o-card2 .m { font-family:'JetBrains Mono'; font-size:20px; color:var(--muted); }
+  .o-card2 .c { font-family:'Space Grotesk'; font-weight:700; font-size:30px; margin-top:6px; }
+  .o-card2 .bar { display:flex; height:12px; border-radius:6px; overflow:hidden; margin-top:14px; }
+  .o-card2 .p { font-size:18px; color:var(--muted); margin-top:10px; }
+  .bubble { max-width:86%; padding:18px 24px; border-radius:22px; font-size:28px; line-height:1.35; }
+  .bubble.user { align-self:flex-end; background:linear-gradient(135deg,#ff4d1c,#ff8a3d); color:#1a0b02; font-weight:600; border-top-right-radius:6px; }
+  .bubble.bot { align-self:flex-start; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-top-left-radius:6px; min-height:40px; }
+  .bubble.bot b { color:var(--fire3); }
 </style>
 </head>
 <body>
@@ -106,6 +115,25 @@
       <div class="card big" style="flex:1; padding:28px; font-size:34px; text-align:center" data-in="8.2">⬇ Data CSV</div>
       <div class="card big" style="flex:1; padding:28px; font-size:34px; text-align:center" data-in="8.6">⬇ Images</div>
       <div class="card big" style="flex:1; padding:28px; font-size:34px; text-align:center" data-in="9.0">⎙ Briefing</div>
+    </div>
+  </div>
+
+  <!-- 5b AI -->
+  <div class="scene" id="s-ai">
+    <div class="abs" style="left:120px; top:110px"><div class="k" data-in="0">✨ Free AI, right in your browser</div><h2 style="margin-top:16px" data-in="0.2">Forecast. Classify. <span class="grad">Ask.</span></h2></div>
+    <div class="abs card" style="left:120px; top:300px; width:1690px; height:300px" data-in="0.5">
+      <div class="mono" style="font-size:22px; padding:22px 28px 0; color:var(--muted)">AI 6-month fire outlook · <span id="aiArea">New South Wales</span> · El Niño index <b id="aiOni" style="color:var(--fire2)">+2.46</b></div>
+      <div class="abs" id="aiStrip" style="left:28px; right:28px; top:76px; display:flex; gap:18px"></div>
+    </div>
+    <div class="abs card" style="left:120px; top:640px; width:620px; height:380px" data-in="4.2">
+      <div class="mono" style="font-size:22px; padding:22px 28px 0; color:var(--muted)">AI fire regimes · India</div>
+    </div>
+    <div class="abs card" style="left:780px; top:640px; width:1030px; height:380px" data-in="7.6">
+      <div class="mono" style="font-size:22px; padding:22px 28px 0; color:var(--muted)">✨ Ask Agni · on-device AI with a hallucination guard</div>
+      <div class="abs" style="left:28px; right:28px; top:80px; display:flex; flex-direction:column; gap:16px">
+        <div class="bubble user" id="aiQ">Should we prepare crews?</div>
+        <div class="bubble bot" id="aiA"></div>
+      </div>
     </div>
   </div>
 

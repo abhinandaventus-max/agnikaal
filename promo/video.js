@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import { feature } from 'topojson-client';
 import land110 from 'world-atlas/land-110m.json';
 import { decodeRegion, cellMask, harmonize, calendar, climatology, season, trend, MONTHS } from '../src/harmonize.js';
+import { fireOutlook, fireRegimes, REGIME_COLORS, askAgniLite, buildFacts } from '../src/ai.js';
 
 const W = 1920, H = 1080;
 const cv = document.getElementById('cv');
@@ -56,6 +57,16 @@ async function load() {
   D.live = live.points.filter(([lon, lat]) => lon > 68.5 && lon < 97.5 && lat > 6.75 && lat < 35.25);
   D.fires = live.points;
   D.land = feature(land110, land110.objects.land);
+  // AI scene data: NSW outlook (El Nino), India regimes, a grounded Agni answer for Punjab
+  const [am, ab, oniJ] = await Promise.all([fetch('/data/australia.json').then((r) => r.json()), fetch('/data/australia.bin').then((r) => r.arrayBuffer()), fetch('/data/oni.json').then((r) => r.json())]);
+  const AU = decodeRegion(am, ab);
+  const nsw = harmonize(AU, cellMask(AU, { type: 'bbox', bbox: [148.0, -37.6, 153.7, -28.2] }).mask);
+  const oniKeys = Object.keys(oniJ.values).sort(), oniNow = oniJ.values[oniKeys[oniKeys.length - 1]];
+  D.oniNow = oniNow;
+  D.outlook = fireOutlook(nsw, climatology(nsw, 2001, 2025), oniJ.values, { year: 2026, month: 10, anom: null, oni: oniNow }).leads;
+  D.regimes = fireRegimes(R);
+  const pS = { h: hp, clim, rows: D.cal, season: se, trend: tr, region: { name: 'Punjab' }, aoi: { label: 'Punjab' }, yA: 2001, yB: 2025 };
+  D.agni = askAgniLite('Should we prepare crews?', buildFacts(pS)).replace(/\s+Right now.*$/, '');
   // captions: script text (with punctuation) aligned to the spoken word timings
   D.caps = [];
   for (const sc of SCENES) for (const c of captionLines(sc)) D.caps.push(c);
@@ -344,6 +355,36 @@ const paint = {
     $('#cR2').textContent = `${Math.round(97 * ease(prog(lt, 1, 1.6)))}%`;
     $('#cDet').textContent = (D.det * ease(prog(lt, 3.2, 1.6))).toFixed(1);
     $('#cCountry').textContent = Math.round(D.countries * ease(prog(lt, 4.8, 1)));
+  },
+  ai(lt) {
+    const strip = $('#aiStrip');
+    if (!strip.dataset.built) {
+      strip.dataset.built = 1;
+      $('#aiOni').textContent = (D.oniNow > 0 ? '+' : '') + D.oniNow.toFixed(2);
+      strip.innerHTML = D.outlook.filter(Boolean).map((o) => {
+        const col = o.category === 'Above normal' ? '#f43f5e' : o.category === 'Below normal' ? '#5ad1ff' : o.category === 'Near normal' ? '#4ade80' : '#6b7287';
+        return `<div class="o-card2" data-o><div class="m">${MONTHS[o.month]} ${o.year}</div><div class="c" style="color:${col}">${o.category}</div>
+          <div class="bar"><span style="width:${o.pBelow * 100}%;background:#5ad1ff"></span><span style="width:${o.pNormal * 100}%;background:#4b5368"></span><span style="width:${o.pAbove * 100}%;background:#ff6a2b"></span></div>
+          <div class="p">${Math.round(o.pAbove * 100)}% chance above normal</div></div>`;
+      }).join('');
+    }
+    strip.querySelectorAll('[data-o]').forEach((c, i) => { const p = ease(prog(lt, 1.0 + i * 0.35, 0.6)); c.style.opacity = p; c.style.transform = `translateY(${(1 - p) * 24}px)`; });
+    // regimes mini-map of India
+    const rg = D.regimes, R = D.R; const [bw, bs, be, bn] = R.bbox;
+    const x0 = 150, y0 = 700, w = 560, h = 300, s2 = Math.min(w / (be - bw), h / (bn - bs));
+    const ox = x0 + (w - (be - bw) * s2) / 2, oy = y0 + (h - (bn - bs) * s2) / 2;
+    const rp = prog(lt, 4.6, 2.2);
+    for (let i = 0; i < R.nc; i++) {
+      const g = rg.cellRegime[i]; if (g < 0) continue;
+      const rev = clamp(rp * 1.6 - (bn - R.cellLat[i]) / (bn - bs)); if (rev <= 0) continue;
+      ctx.globalAlpha = 0.9 * rev; ctx.fillStyle = REGIME_COLORS[g];
+      ctx.fillRect(ox + (R.cellLon[i] - bw) * s2, oy + (bn - R.cellLat[i] - R.res) * s2, R.res * s2 - 0.5, R.res * s2 - 0.5);
+    }
+    ctx.globalAlpha = 1;
+    // Ask Agni typing effect
+    const full = D.agni.replace(/\*\*/g, '');
+    const n = Math.floor(full.length * clamp((lt - 8.6) / 4.5));
+    $('#aiA').innerHTML = n > 0 ? full.slice(0, n).replace(/(April|May|October|November|94%)/g, '<b>$1</b>') : '<span style="opacity:.5">…</span>';
   },
   who() {},
   team(lt, sc, el) {

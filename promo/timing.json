@@ -780,6 +780,194 @@
   ]
  },
  {
+  "id": "ai",
+  "text": "And a free AI layer, running right in your browser, forecasts the next six months using the El Ni\u00f1o signal, maps the fire type of every region, and answers your questions as Agni, your fire assistant.",
+  "file": "build/vo/ai.mp3",
+  "dur": 14.784,
+  "words": [
+   {
+    "w": "And",
+    "t": 0.1,
+    "d": 0.15
+   },
+   {
+    "w": "a",
+    "t": 0.2625,
+    "d": 0.05
+   },
+   {
+    "w": "free",
+    "t": 0.325,
+    "d": 0.425
+   },
+   {
+    "w": "AI",
+    "t": 0.7625,
+    "d": 0.4
+   },
+   {
+    "w": "layer",
+    "t": 1.175,
+    "d": 0.4125
+   },
+   {
+    "w": "running",
+    "t": 1.85,
+    "d": 0.3875
+   },
+   {
+    "w": "right",
+    "t": 2.25,
+    "d": 0.3125
+   },
+   {
+    "w": "in",
+    "t": 2.575,
+    "d": 0.0875
+   },
+   {
+    "w": "your",
+    "t": 2.675,
+    "d": 0.15
+   },
+   {
+    "w": "browser",
+    "t": 2.8375,
+    "d": 0.6
+   },
+   {
+    "w": "forecasts",
+    "t": 3.6875,
+    "d": 0.7125
+   },
+   {
+    "w": "the",
+    "t": 4.4125,
+    "d": 0.125
+   },
+   {
+    "w": "next",
+    "t": 4.55,
+    "d": 0.4125
+   },
+   {
+    "w": "six",
+    "t": 4.975,
+    "d": 0.325
+   },
+   {
+    "w": "months",
+    "t": 5.3125,
+    "d": 0.3375
+   },
+   {
+    "w": "using",
+    "t": 5.6625,
+    "d": 0.3875
+   },
+   {
+    "w": "the",
+    "t": 6.0625,
+    "d": 0.1625
+   },
+   {
+    "w": "El",
+    "t": 6.2375,
+    "d": 0.2
+   },
+   {
+    "w": "Neen-yo",
+    "t": 6.45,
+    "d": 0.4
+   },
+   {
+    "w": "signal",
+    "t": 6.8625,
+    "d": 0.55
+   },
+   {
+    "w": "maps",
+    "t": 7.6375,
+    "d": 0.3875
+   },
+   {
+    "w": "the",
+    "t": 8.0375,
+    "d": 0.1125
+   },
+   {
+    "w": "fire",
+    "t": 8.1625,
+    "d": 0.4
+   },
+   {
+    "w": "type",
+    "t": 8.575,
+    "d": 0.3
+   },
+   {
+    "w": "of",
+    "t": 8.8875,
+    "d": 0.2375
+   },
+   {
+    "w": "every",
+    "t": 9.1375,
+    "d": 0.3875
+   },
+   {
+    "w": "region",
+    "t": 9.5375,
+    "d": 0.5
+   },
+   {
+    "w": "and",
+    "t": 10.325,
+    "d": 0.1625
+   },
+   {
+    "w": "answers",
+    "t": 10.5,
+    "d": 0.475
+   },
+   {
+    "w": "your",
+    "t": 10.9875,
+    "d": 0.125
+   },
+   {
+    "w": "questions",
+    "t": 11.125,
+    "d": 0.5375
+   },
+   {
+    "w": "as",
+    "t": 11.675,
+    "d": 0.1875
+   },
+   {
+    "w": "Agni",
+    "t": 11.875,
+    "d": 0.4125
+   },
+   {
+    "w": "your",
+    "t": 12.5125,
+    "d": 0.15
+   },
+   {
+    "w": "fire",
+    "t": 12.675,
+    "d": 0.5
+   },
+   {
+    "w": "assistant",
+    "t": 13.1875,
+    "d": 0.6625
+   }
+  ]
+ },
+ {
   "id": "proof",
   "text": "It is tested, not guessed: a ninety-seven percent cross-validation score, seventy million NASA detections, and it finds real disasters, like Canada in 2023.",
   "file": "build/vo/proof.mp3",

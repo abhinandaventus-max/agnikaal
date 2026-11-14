@@ -63,7 +63,7 @@ const link = (text, url, extra = {}) => ({ text, options: { hyperlink: { url, to
   s.addText('NASA SPACE APPS 2026  ·  HARMONIZATION OF MODIS AND VIIRS HOT SPOTS', { x: 0.6, y: 0.55, w: 7.2, h: 0.3, fontSize: 12, bold: true, color: K.amber, charSpacing: 2, margin: 0, isTextBox: true });
   s.addText([{ text: 'Agni', options: { color: K.text } }, { text: 'kaal', options: { color: K.amber } }], { x: 0.6, y: 0.95, w: 7, h: 1.35, fontSize: 80, bold: true, fontFace: 'Arial', margin: 0, isTextBox: true });
   s.addText('25 years of fire. One consistent record.', { x: 0.6, y: 2.3, w: 7, h: 0.5, fontSize: 26, bold: true, color: K.text, margin: 0, isTextBox: true });
-  s.addText('A web app that joins NASA’s old MODIS and new VIIRS fire satellites into one fair fire calendar, for any area you draw, with a live 7-day early warning.', { x: 0.6, y: 2.85, w: 6.6, h: 0.85, fontSize: 15, color: K.muted, margin: 0, isTextBox: true });
+  s.addText('A web app that joins NASA’s old MODIS and new VIIRS fire satellites into one fair fire calendar, for any area you draw, with a live early warning and free AI forecasts.', { x: 0.6, y: 2.85, w: 6.6, h: 0.85, fontSize: 15, color: K.muted, margin: 0, isTextBox: true });
   s.addText([link('▶  agnikaal.vercel.app', LINKS.app, { bold: true }), { text: '      ' }, link('GitHub repository', LINKS.github, { bold: true })], { x: 0.6, y: 3.78, w: 6.8, h: 0.35, fontSize: 15, margin: 0, isTextBox: true });
 
   s.addText('TEAM AKASHA7', { x: 0.6, y: 4.45, w: 6, h: 0.3, fontSize: 12, bold: true, color: K.amber, charSpacing: 2, margin: 0, isTextBox: true });
@@ -153,14 +153,14 @@ const link = (text, url, extra = {}) => ({ text, options: { hyperlink: { url, to
   kicker(s, '03 · What you get');
   s.addText('Draw any area, get its full fire story', { placeholder: 'title' });
   s.addImage({ path: A('calendar.jpg'), x: 0.6, y: 1.65, w: 6.5, h: 2.69, altText: 'India fire map and the Punjab burning calendar 2001 to 2025' });
-  s.addImage({ path: A('live.jpg'), x: 0.6, y: 4.45, w: 6.5, h: 2.69 - 0.25, sizing: { type: 'cover', w: 6.5, h: 2.44 }, altText: 'Live hotspots map and early warning gauge' });
+  s.addImage({ path: A('ai.jpg'), x: 0.6, y: 4.45, w: 6.5, h: 2.44, sizing: { type: 'cover', w: 6.5, h: 2.44 }, altText: 'AI 6-month outlook, AI fire regimes map and the Ask Agni assistant' });
   const items = [
-    ['Fire calendar', 'Month-by-month fire activity, 2001–2025, in counts, anomaly or percentile view.', K.fire],
-    ['Critical season', 'Which months hold 80% of the burning (Punjab: May and Oct–Nov).', K.amber],
-    ['Worst years & trend', 'Ranked fire years and a statistically tested long-term trend.', K.gold],
-    ['Live 7-day warning', 'This week rated Below normal, Typical, Elevated or Extreme.', K.red],
-    ['Time-lapse map', '25 years of fire animated across the map.', K.cyan],
+    ['Fire calendar & season', 'Month-by-month fire activity 2001–2025, critical months, worst years and trend.', K.fire],
+    ['Live 7-day warning', 'This week rated Below normal, Typical, Elevated or Extreme, plus fire-weather risk.', K.red],
     ['Downloads', 'Data (CSV), calendar image (PNG) and an auto-written briefing.', K.green],
+    ['AI 6-month outlook', 'Backtested forecast using the El Niño index; says “no clear signal” when unsure.', K.amber],
+    ['AI fire regimes', 'Machine learning finds crop-burning vs forest-fire zones on the map.', K.cyan],
+    ['Ask Agni AI assistant', 'Free on-device AI answers questions; a guard blocks made-up numbers.', K.purple],
   ];
   items.forEach(([h, t, c], i) => {
     const y = 1.65 + i * 0.9;
@@ -168,7 +168,7 @@ const link = (text, url, extra = {}) => ({ text, options: { hyperlink: { url, to
     s.addText(h, { x: 7.9, y, w: 4.8, h: 0.36, fontSize: 17, bold: true, color: K.text, margin: 0, isTextBox: true });
     s.addText(t, { x: 7.9, y: y + 0.36, w: 4.8, h: 0.46, fontSize: 13, color: K.muted, margin: 0, isTextBox: true });
   });
-  s.addNotes('Using it is simple: pick a region, draw a box or polygon, or type a latitude and longitude. You immediately get the fire calendar, the critical fire season, the worst years and the trend, a live 7-day warning, a 25-year time-lapse, and downloads. Example: Punjab shows its two crop-burning seasons, May and October to November.');
+  s.addNotes('Using it is simple: pick a region, draw a box or polygon, or type a latitude and longitude. You immediately get the fire calendar, the critical fire season, the worst years and the trend, a live 7-day warning with fire weather, and downloads. On top, a free AI layer runs in the browser: a backtested 6-month outlook that uses the El Niño index, a machine-learned fire-regime map, and Ask Agni, an assistant whose answers are checked against the data so it cannot invent numbers.');
 }
 
 // =============== 5. PROOF =================
@@ -177,7 +177,7 @@ const link = (text, url, extra = {}) => ({ text, options: { hyperlink: { url, to
   const s = pres.addSlide({ masterName: 'AGNI_CONTENT', sectionTitle: 'Proof' });
   kicker(s, '04 · Tested, not guessed');
   s.addText('Proven on real NASA data', { placeholder: 'title' });
-  const stats = [['0.97', 'cross-validation R²\n(India, monthly)', K.green], ['69.8M', 'NASA fire detections\nharmonized', K.text], ['5', 'countries, 2001–2025\n+ live feed', K.cyan], ['−82%', 'error of the naive\nsplice we avoid', K.red]];
+  const stats = [['0.97', 'cross-validation R²\n(India, monthly)', K.green], ['69.8M', 'NASA fire detections\nharmonized', K.text], ['64%', 'AI outlook hit rate\n(Chaco; chance = 33%)', K.cyan], ['−82%', 'error of the naive\nsplice we avoid', K.red]];
   stats.forEach(([v, l, c], i) => {
     const x = 0.6 + i * 3.08;
     card(s, x, 1.65, 2.82, 1.75);
@@ -199,7 +199,7 @@ const link = (text, url, extra = {}) => ({ text, options: { hyperlink: { url, to
     { text: 'Paraná Delta, Argentina · 2008 fires', options: { bullet: true, breakLine: true } },
     { text: 'Punjab · stubble burning May + Oct–Nov', options: { bullet: true } },
   ], { x: 7.75, y: 4.35, w: 4.8, h: 2.2, fontSize: 15, color: K.muted, paraSpaceAfter: 8, margin: 0, valign: 'top', isTextBox: true });
-  s.addNotes('We do not just claim it works. Every calibration is cross-validated by hiding one year at a time: R squared is 0.92 to 0.98 across five countries, while a naive splice is wrong by 70 to 82 percent. And without being told, the harmonized record finds the real disasters: Québec 2023, Australia\'s Black Summer, California 2020, the Paraná Delta fires of 2008, and Punjab\'s stubble burning seasons.');
+  s.addNotes('We do not just claim it works. Every calibration is cross-validated by hiding one year at a time: R squared is 0.92 to 0.98 across five countries, while a naive splice is wrong by 70 to 82 percent. Our AI outlook is also backtested: up to 64 percent of months are called correctly, against 33 percent by chance. And without being told, the harmonized record finds the real disasters: Québec 2023, Australia\'s Black Summer, California 2020, the Paraná Delta fires of 2008, and Punjab\'s stubble burning seasons.');
 }
 
 // =============== 6. WHY IT STANDS OUT =================
@@ -217,7 +217,7 @@ const link = (text, url, extra = {}) => ({ text, options: { hyperlink: { url, to
     r('Trust me, no accuracy check', 'Live cross-validation score for every area'),
     r('Factories and gas flares counted as fires', 'Static heat sources filtered out'),
     r('History only, or live only', 'History + live 7-day early warning'),
-    r('Fixed regions', 'Draw any box, polygon or lat/lon radius'),
+    r('Charts of the past only', 'AI outlook + Ask Agni, guarded against hallucination'),
   ], { x: 0.6, y: 1.7, w: 7.1, colW: [3.2, 3.9], fontSize: 14, fontFace: 'Calibri', rowH: 0.68, border: { type: 'solid', color: K.line, pt: 0.75 }, valign: 'middle', margin: [0, 0.14, 0, 0.14] });
   const who = [
     ['Emergency managers', 'Know if this week is unusual and pre-position crews early.', K.amber],
