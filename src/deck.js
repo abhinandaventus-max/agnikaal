@@ -27,7 +27,9 @@ async function main() {
   const rows = calendar(h, 2001, 2025);
   const v = h.validation;
   $('#dSeam').textContent = `${meta.seamJump.toFixed(1)}×`;
-  $('#dDet').textContent = `${(meta.detections / 1e6).toFixed(1)} M`;
+  fetch('/data/index.json').then((r) => r.json()).then((idx) => {
+    $('#dDet').textContent = `${(idx.reduce((a, r) => a + (r.detections || 0), 0) / 1e6).toFixed(1)} M detections across ${idx.length} countries`;
+  });
   $('#dR2').textContent = v.r2.toFixed(2);
   $('#dBias').textContent = `${v.bias >= 0 ? '+' : ''}${v.bias.toFixed(1)}%`;
   $('#dNaive').textContent = `${v.naiveBias.toFixed(0)}%`;
