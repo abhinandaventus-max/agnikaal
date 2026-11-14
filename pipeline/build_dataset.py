@@ -214,7 +214,7 @@ def main():
         print(f"== {rid}: {nc} cells, {nb/1e6:.2f} MB binary, {time.time()-t:.0f}s", flush=True)
     idx = []
     for f in sorted(os.listdir(OUT)):
-        if f.endswith(".json") and f != "index.json":
+        if f.endswith(".json") and f not in ("index.json", "live_sample.json"):
             m = json.load(open(os.path.join(OUT, f)))
             idx.append({"id": m["id"], "name": m["name"], "bbox": m["bbox"],
                         "detections": m.get("detections", 0), "seamJump": m.get("seamJump")})
