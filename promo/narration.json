@@ -30,6 +30,11 @@
   "say": "And a free AI layer, running right in your browser, forecasts the next six months using the El Neen-yo signal, maps the fire type of every region, and answers your questions as Agni, your fire assistant."
  },
  {
+  "id": "lab",
+  "text": "For researchers, a Research Lab automatically tests trends and shifts, explains what drove each fire year using twenty-five years of weather data, finds similar places, and catalogues extreme fire events, ready for Python or Google Earth.",
+  "say": "For researchers, a Research Lab automatically tests trends and shifts, explains what drove each fire year using twenty-five years of weather data, finds similar places, and catalogues extreme fire events, ready for Python or Google Earth."
+ },
+ {
   "id": "proof",
   "text": "It is tested, not guessed: a ninety-seven percent cross-validation score, seventy million NASA detections, and it finds real disasters, like Canada in 2023.",
   "say": "It is tested, not guessed: a ninety-seven percent cross-validation score, seventy million NASA detections, and it finds real disasters, like Canada in 2023."

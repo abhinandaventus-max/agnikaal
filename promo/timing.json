@@ -968,6 +968,194 @@
   ]
  },
  {
+  "id": "lab",
+  "text": "For researchers, a Research Lab automatically tests trends and shifts, explains what drove each fire year using twenty-five years of weather data, finds similar places, and catalogues extreme fire events, ready for Python or Google Earth.",
+  "file": "build/vo/lab.mp3",
+  "dur": 16.92,
+  "words": [
+   {
+    "w": "For",
+    "t": 0.1,
+    "d": 0.15
+   },
+   {
+    "w": "researchers",
+    "t": 0.2625,
+    "d": 0.75
+   },
+   {
+    "w": "a",
+    "t": 1.25,
+    "d": 0.1125
+   },
+   {
+    "w": "Research",
+    "t": 1.375,
+    "d": 0.4875
+   },
+   {
+    "w": "Lab",
+    "t": 1.875,
+    "d": 0.3
+   },
+   {
+    "w": "automatically",
+    "t": 2.1875,
+    "d": 0.8125
+   },
+   {
+    "w": "tests",
+    "t": 3.0125,
+    "d": 0.475
+   },
+   {
+    "w": "trends",
+    "t": 3.5,
+    "d": 0.3625
+   },
+   {
+    "w": "and",
+    "t": 3.875,
+    "d": 0.15
+   },
+   {
+    "w": "shifts",
+    "t": 4.0375,
+    "d": 0.475
+   },
+   {
+    "w": "explains",
+    "t": 4.8,
+    "d": 0.6125
+   },
+   {
+    "w": "what",
+    "t": 5.425,
+    "d": 0.225
+   },
+   {
+    "w": "drove",
+    "t": 5.6625,
+    "d": 0.425
+   },
+   {
+    "w": "each",
+    "t": 6.1,
+    "d": 0.275
+   },
+   {
+    "w": "fire",
+    "t": 6.3875,
+    "d": 0.3875
+   },
+   {
+    "w": "year",
+    "t": 6.7875,
+    "d": 0.2375
+   },
+   {
+    "w": "using",
+    "t": 7.0375,
+    "d": 0.3875
+   },
+   {
+    "w": "twenty-five",
+    "t": 7.4375,
+    "d": 0.65
+   },
+   {
+    "w": "years",
+    "t": 8.1,
+    "d": 0.2625
+   },
+   {
+    "w": "of",
+    "t": 8.375,
+    "d": 0.15
+   },
+   {
+    "w": "weather",
+    "t": 8.5375,
+    "d": 0.3125
+   },
+   {
+    "w": "data",
+    "t": 8.8625,
+    "d": 0.4875
+   },
+   {
+    "w": "finds",
+    "t": 9.6,
+    "d": 0.4
+   },
+   {
+    "w": "similar",
+    "t": 10.0125,
+    "d": 0.4625
+   },
+   {
+    "w": "places",
+    "t": 10.4875,
+    "d": 0.575
+   },
+   {
+    "w": "and",
+    "t": 11.3625,
+    "d": 0.2125
+   },
+   {
+    "w": "catalogues",
+    "t": 11.5875,
+    "d": 0.6125
+   },
+   {
+    "w": "extreme",
+    "t": 12.2125,
+    "d": 0.4625
+   },
+   {
+    "w": "fire",
+    "t": 12.6875,
+    "d": 0.475
+   },
+   {
+    "w": "events",
+    "t": 13.175,
+    "d": 0.5375
+   },
+   {
+    "w": "ready",
+    "t": 13.9,
+    "d": 0.325
+   },
+   {
+    "w": "for",
+    "t": 14.2375,
+    "d": 0.225
+   },
+   {
+    "w": "Python",
+    "t": 14.475,
+    "d": 0.5875
+   },
+   {
+    "w": "or",
+    "t": 15.075,
+    "d": 0.125
+   },
+   {
+    "w": "Google",
+    "t": 15.2125,
+    "d": 0.475
+   },
+   {
+    "w": "Earth",
+    "t": 15.7,
+    "d": 0.2875
+   }
+  ]
+ },
+ {
   "id": "proof",
   "text": "It is tested, not guessed: a ninety-seven percent cross-validation score, seventy million NASA detections, and it finds real disasters, like Canada in 2023.",
   "file": "build/vo/proof.mp3",

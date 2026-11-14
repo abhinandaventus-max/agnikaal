@@ -4,6 +4,8 @@ import { feature } from 'topojson-client';
 import land110 from 'world-atlas/land-110m.json';
 import { decodeRegion, cellMask, harmonize, calendar, climatology, season, trend, MONTHS } from '../src/harmonize.js';
 import { fireOutlook, fireRegimes, REGIME_COLORS, askAgniLite, buildFacts } from '../src/ai.js';
+import { autoInsights } from '../src/research.js';
+import { weatherDrivers, placeName } from '../src/discover.js';
 
 const W = 1920, H = 1080;
 const cv = document.getElementById('cv');
@@ -67,6 +69,18 @@ async function load() {
   D.regimes = fireRegimes(R);
   const pS = { h: hp, clim, rows: D.cal, season: se, trend: tr, region: { name: 'Punjab' }, aoi: { label: 'Punjab' }, yA: 2001, yB: 2025 };
   D.agni = askAgniLite('Should we prepare crews?', buildFacts(pS)).replace(/\s+Right now.*$/, '');
+  // Research Lab scene: real insights (Punjab), ERA5 drivers (NSW vs Punjab), catalogue events
+  D.ins = autoInsights(hp, oniJ.values).tests.filter((t) => t.q != null && t.q < 0.05).slice(0, 3);
+  const nswClim = climatology(nsw, 2001, 2025);
+  const [dA, dB] = await Promise.all([
+    weatherDrivers({ h: nsw, season: season(nswClim), oni: oniJ.values }, { aoiBBox: () => [148.0, -37.6, 153.7, -28.2] }),
+    weatherDrivers({ h: hp, season: se, oni: oniJ.values }, { aoiBBox: () => [73.8, 29.5, 77.2, 32.6] }),
+  ]);
+  D.drv = [dA.r2, dB.r2];
+  const evAll = (await fetch('/data/events.json').then((r) => r.json())).events;
+  const pick = [['australia', 2020, 0], ['canada', 2023, 8], ['australia', 2003, 0], ['india', 2021, 2]];
+  D.events = [];
+  for (const [rg, y, m] of pick) { const e = evAll.find((x) => x.region === rg && x.year === y && x.month === m); if (e) D.events.push({ ...e, name: await placeName(e.lat, e.lon) }); }
   // captions: script text (with punctuation) aligned to the spoken word timings
   D.caps = [];
   for (const sc of SCENES) for (const c of captionLines(sc)) D.caps.push(c);
@@ -385,6 +399,20 @@ const paint = {
     const full = D.agni.replace(/\*\*/g, '');
     const n = Math.floor(full.length * clamp((lt - 8.6) / 4.5));
     $('#aiA').innerHTML = n > 0 ? full.slice(0, n).replace(/(April|May|October|November|94%)/g, '<b>$1</b>') : '<span style="opacity:.5">…</span>';
+  },
+  lab(lt) {
+    const box = $('#labIns');
+    if (!box.dataset.built) {
+      box.dataset.built = 1;
+      box.innerHTML = D.ins.map((t) => `<div class="lab-ins" data-li><span class="bd ${t.strength === 'Strong' ? '' : 'sig'}">${t.strength.toUpperCase()} · q=${t.q < 0.001 ? '<0.001' : t.q.toFixed(3)}</span><b>${t.title}</b><span class="st">${t.stat}</span></div>`).join('');
+      $('#labEv').innerHTML = D.events.map((e) => `<div class="ev-row" data-le><div><b>${MONTHS[e.month]} ${e.year} · ${e.name.split(',').slice(0, 2).join(',')}</b><span>${e.regionName} · ${e.cells} cells · +${e.excess.toLocaleString()} fire cell-days above normal</span></div><em>+${e.zmax}σ</em></div>`).join('');
+    }
+    box.querySelectorAll('[data-li]').forEach((c, i) => { const p = ease(prog(lt, 1.2 + i * 1.1, 0.7)); c.style.opacity = p; c.style.transform = `translateX(${(1 - p) * -30}px)`; });
+    const pa = ease(prog(lt, 5.4, 1.6)), pb = ease(prog(lt, 6.4, 1.6));
+    $('#drvA').style.width = `${D.drv[0] * 100 * pa}%`; $('#drvAv').textContent = `${Math.round(D.drv[0] * 100 * pa)}%`;
+    $('#drvB').style.width = `${Math.max(1.5, D.drv[1] * 100 * pb)}%`; $('#drvBv').textContent = `${Math.round(D.drv[1] * 100 * pb)}%`;
+    $('#drvNote').innerHTML = lt > 7.6 ? '<b style="color:#4ade80">NSW: climate-driven</b> · <b style="color:#f43f5e">Punjab: human-driven</b> (crop calendar &amp; policy)' : 'Share of year-to-year fire variation explained by weather';
+    $('#labEv').querySelectorAll('[data-le]').forEach((c, i) => { const p = ease(prog(lt, 9.6 + i * 0.7, 0.6)); c.style.opacity = p; });
   },
   who() {},
   team(lt, sc, el) {
