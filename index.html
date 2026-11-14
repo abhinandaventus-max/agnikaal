@@ -47,7 +47,7 @@
         <p class="lede reveal">Agnikaal fuses two decades of <b class="c-modis">MODIS</b> with the sharper, newer <b class="c-viirs">VIIRS</b> record into a single, sensor-agnostic <b>burning-activity calendar</b>, for any area you draw on the map.</p>
         <div class="hero-cta reveal">
           <a class="btn btn-fire" href="#explorer">Open the fire calendar <span aria-hidden="true">→</span></a>
-          <a class="btn btn-ghost" href="#method">How harmonization works</a>
+          <a class="btn btn-ghost" href="#intro-video" id="watchIntro"><span class="play-ic" aria-hidden="true">▶</span> Watch the 90-second intro</a>
         </div>
         <dl class="hero-stats reveal">
           <div><dt><span class="count" data-to="26">0</span></dt><dd>years harmonized<br>2000 → 2025 + live</dd></div>
@@ -62,6 +62,21 @@
         <span><i style="background:#5ad1ff"></i>S-NPP / NOAA-20 / NOAA-21 · VIIRS</span>
       </div>
       <a href="#problem" class="scroll-hint" aria-label="Scroll down"><span></span></a>
+    </section>
+
+    <!-- INTRO VIDEO -->
+    <section class="section intro-video" id="intro-video" aria-labelledby="ivTitle">
+      <div class="wrap">
+        <p class="kicker reveal">See it in 90 seconds</p>
+        <h2 id="ivTitle" class="reveal">What Agnikaal does, and why it matters.</h2>
+        <div class="video-frame reveal">
+          <video id="introVideo" controls playsinline preload="none" poster="/video/agnikaal-intro-poster.jpg" aria-label="Agnikaal 90-second introduction video with captions">
+            <source src="/video/agnikaal-intro-web.mp4" type="video/mp4" />
+          </video>
+          <button class="video-play" id="videoPlay" aria-label="Play the intro video"><span>▶</span></button>
+        </div>
+        <p class="note reveal">Narrated intro with captions · <a href="/video/agnikaal-intro-web.mp4" download>Download MP4</a></p>
+      </div>
     </section>
 
     <!-- SENSOR RELAY -->
@@ -235,6 +250,11 @@
           <p class="kicker reveal">About</p>
           <h2 id="aboutTitle" class="reveal">Team AKASHA7 · Malappuram, India</h2>
           <p class="reveal">“Agnikaal” joins two Sanskrit words, <i>agni</i> (fire) and <i>kāl</i> (time): a calendar of fire. We built it for NASA Space Apps 2026 to give anyone, from a forest range officer in Kerala to a researcher in Buenos Aires, one honest view of how burning has changed where they live.</p>
+          <div class="team reveal">
+            <a class="member" href="https://www.linkedin.com/in/abhinandks12" target="_blank" rel="noopener"><img src="/team/abhinand.jpg" alt="Abhinand" loading="lazy" /><b>Abhinand</b><span>LinkedIn ↗</span></a>
+            <div class="member"><img src="/team/abhijith.jpg" alt="Abhijith K S" loading="lazy" /><b>Abhijith K S</b><span>Team member</span></div>
+            <a class="member" href="https://www.linkedin.com/in/annlia-lixon/" target="_blank" rel="noopener"><img src="/team/annlia.jpg" alt="Annlia Lixon" loading="lazy" /><b>Annlia Lixon</b><span>LinkedIn ↗</span></a>
+          </div>
           <div class="hero-cta reveal">
             <a class="btn btn-ghost" id="ghLink" href="https://github.com/" target="_blank" rel="noopener">View source on GitHub</a>
             <a class="btn btn-ghost" href="https://www.spaceappschallenge.org/2026/challenges/modis-and-viirs-hot-spots/" target="_blank" rel="noopener">The challenge</a>

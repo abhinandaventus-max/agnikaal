@@ -1,6 +1,8 @@
 # Agnikaal: Harmonized MODIS + VIIRS Fire Calendar
 
-**Live app: https://agnikaal.vercel.app · Deck: https://agnikaal.vercel.app/deck.html**
+**Live app: https://agnikaal.vercel.app · Deck: https://agnikaal.vercel.app/deck.html · [90-second intro video](https://agnikaal.vercel.app/video/agnikaal-intro-web.mp4) · [Presentation (.pptx)](promo/Agnikaal-Presentation.pptx)**
+
+**Team AKASHA7:** [Abhinand](https://www.linkedin.com/in/abhinandks12) · Abhijith K S · [Annlia Lixon](https://www.linkedin.com/in/annlia-lixon/)
 
 **NASA Space Apps Challenge 2026 · Challenge: [Harmonization of MODIS and VIIRS Hot Spots](https://www.spaceappschallenge.org/2026/challenges/modis-and-viirs-hot-spots/) · Team AKASHA7 (Malappuram, India)**
 
@@ -95,3 +97,8 @@ tests/                  node:test unit tests
 NASA FIRMS / LANCE / Earthdata; Giglio et al. 2016 (MODIS C6); Schroeder et al. 2014 (VIIRS 375 m); basemap © OpenStreetMap contributors © CARTO; Natural Earth via world-atlas; Leaflet; D3. NASA does not endorse this project.
 
 MIT License.
+
+## Intro video & presentation
+
+`promo/` holds the reproducible pipeline for the intro video and slide deck:
+`voiceover.py` (narration + word timings), `intro-video.html` + `video.js` (deterministic animated stage that uses the real tiles), `render.mjs` (frame-by-frame capture via headless Chrome), `mux.py` (voice + ambient bed, YouTube/web encodes, SRT captions) and `build-pptx.cjs` (7-slide deck).

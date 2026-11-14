@@ -520,8 +520,22 @@ async function setRegion(id, { aoi = null, fit = true } = {}) {
 
 function setToolUI(t) { $$('.tool').forEach((b) => b.classList.toggle('active', b.dataset.tool === t)); }
 
+function initIntroVideo() {
+  const v = $('#introVideo'), frame = v.closest('.video-frame'), btn = $('#videoPlay');
+  const play = () => { v.play().catch(() => {}); };
+  btn.addEventListener('click', play);
+  v.addEventListener('play', () => frame.classList.add('playing'));
+  v.addEventListener('pause', () => { if (!v.seeking) frame.classList.remove('playing'); });
+  v.addEventListener('ended', () => frame.classList.remove('playing'));
+  $('#watchIntro').addEventListener('click', (e) => {
+    e.preventDefault();
+    $('#intro-video').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(play, 700);
+  });
+}
+
 async function boot() {
-  initChrome(); initCounters(); initTimeline(); initPixelDemo();
+  initChrome(); initIntroVideo(); initCounters(); initTimeline(); initPixelDemo();
   startGlobe($('#globe')).catch(() => {});
   readHash();
 

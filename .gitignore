@@ -5,3 +5,5 @@ pipeline/.cache
 *.log
 .DS_Store
 __pycache__/
+promo/out/
+promo/timing.json.bak
