@@ -1,6 +1,7 @@
 // UI for the AI features: Outlook (forecast + fire weather), Fire regimes, Ask Agni chat.
 import { MONTHS, monthlyRows, toCSV } from './harmonize.js';
 import { autoInsights, methodsText, BIBTEX, notebook, buildKML, googleEarthUrl, aoiGeoJSON, cellTotals } from './research.js';
+import { renderSimilar, renderEvents, renderDrivers } from './discover.js';
 import { nice } from './charts.js';
 import { fireOutlook, latestOni, fireWeather, weeklyRisk, WX_LEVEL, fireRegimes, REGIME_COLORS, buildFacts, askAgniLite, agniSystemPrompt } from './ai.js';
 
@@ -206,14 +207,26 @@ export function renderLab(el, S, ctx) {
   const ins = ensureInsights(S, ctx);
   const name = S.aoi ? S.aoi.label : S.region.name;
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
-  const shown = ins.tests.filter((t) => t.strength !== 'Not significant');
-  const hidden = ins.tests.length - shown.length;
-  el.innerHTML = `<div class="ask-head"><h4>🔬 Research Lab · AI Auto-Insights</h4><span class="engine">${ins.nSig} of ${ins.nHyp} hypotheses significant (FDR 5%)</span></div>
-    <div class="sub">The engine automatically tests ${ins.nHyp} hypotheses about <b>${esc(name)}</b> (long-term and month-by-month trends, regime shifts, season timing, El Niño link) plus data checks, then corrects for multiple testing (Benjamini–Hochberg) so nothing is a fluke of scanning many patterns.</div>
-    <div class="insights">${shown.map((t) => `<div class="ins"><span class="badge ${BADGE[t.strength]}">${t.strength}${t.q != null ? ` · q=${t.q < 0.001 ? '<0.001' : t.q.toFixed(3)}` : ''}</span>
-      <b>${esc(t.title)}</b><span class="ins-stat">${esc(t.stat)}</span><span class="ins-why">${esc(t.why)}</span></div>`).join('')}</div>
-    ${hidden ? `<p class="note">${hidden} further hypotheses were tested and are not significant here (that is a result too: no evidence of change).</p>` : ''}
-    <h5 class="ai-h">For researchers, scientists &amp; students</h5>
+  const sub = S.labSub || 'insights';
+  const SUBS = [['insights', 'Auto-Insights'], ['drivers', 'Weather drivers'], ['similar', 'Similar places'], ['events', 'Event finder'], ['exports', 'Exports']];
+  el.innerHTML = `<div class="ask-head"><h4>🔬 Research Lab</h4><span class="engine">${esc(name)}</span></div>
+    <div class="lab-sub" role="tablist">${SUBS.map(([k, l]) => `<button class="mode ${k === sub ? 'active' : ''}" data-sub="${k}">${l}</button>`).join('')}</div>
+    <div id="labBody"></div>`;
+  el.querySelectorAll('.lab-sub .mode').forEach((b) => b.addEventListener('click', () => { S.labSub = b.dataset.sub; renderLab(el, S, ctx); }));
+  const body = el.querySelector('#labBody');
+  if (sub === 'drivers') return renderDrivers(body, S, ctx);
+  if (sub === 'similar') return renderSimilar(body, S, ctx);
+  if (sub === 'events') return renderEvents(body, S, ctx);
+  if (sub === 'insights') {
+    const shown = ins.tests.filter((t) => t.strength !== 'Not significant');
+    const hidden = ins.tests.length - shown.length;
+    body.innerHTML = `<div class="sub">${ins.nSig} of ${ins.nHyp} hypotheses significant (FDR 5%). The engine automatically tests long-term and month-by-month trends, regime shifts, season timing and the El Niño link, plus data checks, then corrects for multiple testing (Benjamini–Hochberg) so nothing is a fluke of scanning many patterns.</div>
+      <div class="insights">${shown.map((t) => `<div class="ins"><span class="badge ${BADGE[t.strength]}">${t.strength}${t.q != null ? ` · q=${t.q < 0.001 ? '<0.001' : t.q.toFixed(3)}` : ''}</span>
+        <b>${esc(t.title)}</b><span class="ins-stat">${esc(t.stat)}</span><span class="ins-why">${esc(t.why)}</span></div>`).join('')}</div>
+      ${hidden ? `<p class="note">${hidden} further hypotheses were tested and are not significant here (that is a result too: no evidence of change).</p>` : ''}`;
+    return;
+  }
+  body.innerHTML = `<div class="sub">One-click, reproducible outputs for researchers, scientists and students.</div>
     <div class="lab-actions">
       <button class="lab-btn" id="labNb"><b>⬇ Jupyter / Colab notebook</b><span>Data embedded · calendar, trend tests, citations · runs as-is</span></button>
       <button class="lab-btn" id="labMethods"><b>⧉ Copy methods paragraph</b><span>Auto-written, with this area's numbers, for your paper or report</span></button>
@@ -224,6 +237,7 @@ export function renderLab(el, S, ctx) {
       <button class="lab-btn" id="labGeo"><b>⬇ Area (GeoJSON)</b><span>Your drawn area for QGIS, ArcGIS or Python</span></button>
     </div>
     <details class="methods"><summary>Preview methods paragraph</summary><p>${esc(methodsText(S, ins))}</p></details>`;
+  el = body;
   const csv = () => toCSV(monthlyRows(S.h, 2001, 2025));
   const copy = async (t, msg) => { try { await navigator.clipboard.writeText(t); ctx.toast(msg); } catch { ctx.toast('Copy blocked by the browser: select the text in the preview instead'); } };
   el.querySelector('#labNb').onclick = () => dl(`agnikaal-${slug}.ipynb`, notebook(S, csv(), ins), 'application/x-ipynb+json');

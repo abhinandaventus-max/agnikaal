@@ -270,6 +270,9 @@ export function askAgniLite(question, f) {
     if (!f.findings) return 'Open the **Research Lab** tab and I will scan this area for significant changes.';
     return f.findings.length ? `Statistically significant findings for ${f.area} (after false-discovery correction): ${f.findings.map((x) => `**${x}**`).join('; ')}.` : `No statistically significant change was found in ${f.area} after correcting for multiple tests: activity looks stable.`;
   }
+  if (has(q, 'similar', 'like this', 'comparable', 'analog', 'elsewhere')) return 'Open **Research Lab → Similar places**: I compare this area\'s fire fingerprint with 32,000 places in 5 countries and list the closest matches.';
+  if (has(q, 'drove', 'driver', 'why was', 'caused', 'because')) return 'Open **Research Lab → Weather drivers**: I fit 25 years of ERA5 weather and El Niño against this area\'s fires and show what drove any year (or whether fires here are mostly human-driven).';
+  if (has(q, 'event', 'disaster', 'extreme', 'biggest fire')) return 'Open **Research Lab → Event finder** for the most extreme fire months detected in this region or across all 5 countries.';
   if (has(q, 'el nino', 'el niño', 'enso', 'la nina', 'la niña', 'ocean')) {
     return f.elNinoEffectPct == null ? 'There are not enough El Niño years with fires here to measure a reliable effect.' : `During El Niño years (ONI ≥ 0.5), fire activity in ${f.area}'s main fire months is **${f.elNinoEffectPct > 0 ? '+' : ''}${f.elNinoEffectPct}%** compared with other years. The latest ONI is **${f.oniLatest}**, ${f.oniLatest >= 1.5 ? 'a strong El Niño' : f.oniLatest >= 0.5 ? 'El Niño conditions' : f.oniLatest <= -0.5 ? 'La Niña conditions' : 'neutral'}.`;
   }

@@ -360,7 +360,13 @@ function critLabel(se) {
 
 function onLive() { renderKPIs(); if (S.tab === 'outlook') renderTab(); }
 
-function aiCtx() { return { aoiKey, aoiBBox, fetchLive, M, renderKPIs, toast }; }
+function openArea(regionId, aoi, tab = 'calendar', mode = null) {
+  S.tab = tab;
+  if (mode) { S.mode = mode; $$('.mode[data-mode]').forEach((x) => x.classList.toggle('active', x.dataset.mode === mode)); }
+  $('#explorer').scrollIntoView({ behavior: 'smooth' });
+  setRegion(regionId, { aoi });
+}
+function aiCtx() { return { aoiKey, aoiBBox, fetchLive, M, renderKPIs, toast, openArea }; }
 
 function aoiKey() { return S.regionId + '|' + JSON.stringify(S.aoi && (S.aoi.bbox || S.aoi.coords)); }
 function aoiBBox() {

@@ -32,6 +32,7 @@ https://github.com/abhinandaventus-max/agnikaal
 - **fire risk this week**: the free Open-Meteo 7-day forecast turned into a Hot-Dry-Windy-style index and combined with season timing and live hotspots;
 - **AI fire regimes**: unsupervised k-means clustering of 40,000+ grid cells by the shape of their fire calendar (e.g. two-season crop-residue burning vs dry-season forest fires);
 - **Research Lab** for researchers, scientists and students: AI Auto-Insights automatically tests trends, regime shifts, season-timing shifts and El Niño links with false-discovery-rate control (over Punjab it detects the season shifting 10 days later per decade). One click exports a ready-to-run Jupyter/Colab notebook with the data embedded, an auto-written methods paragraph, BibTeX with NASA FIRMS DOIs, GeoJSON, and a KML that shows the area's fire history as 3D columns in Google Earth;
+- **Weather drivers, Similar places and Event finder** (Research Lab): ERA5 weather + El Niño regression explains what drove each fire year (NSW 76% climate-driven vs Punjab ~0%, i.e. human-driven); a fire-fingerprint search finds comparable sites among 32,000 cells; an anomaly scan catalogues extreme fire events worldwide (it recovers Black Summer 2020, Canberra 2003, Canada 2023 and Uttarakhand 2021 unprompted);
 - **NASA imagery**: map basemaps from NASA GIBS (yesterday's VIIRS true-colour image, Blue Marble, Black Marble), and a WebGL Earth built from NASA textures;
 - **Ask Agni**: a grounded assistant that answers questions about the area instantly, with an optional free on-device LLM (Llama 3.2 1B via WebLLM; nothing leaves the browser). A number-and-term guard rejects any AI reply that is not backed by the data.
 
@@ -62,7 +63,8 @@ AI inside the app (all free, all in the user's browser): (1) the 6-month fire ou
 ## Space agency partner & other data
 - OpenStreetMap contributors and CARTO basemap tiles
 - Natural Earth land outlines (via the `world-atlas` package)
-- Open-Meteo free weather forecast API (CC BY 4.0): https://open-meteo.com
+- Open-Meteo free weather forecast and historical (ERA5 reanalysis, Copernicus/ECMWF) APIs (CC BY 4.0): https://open-meteo.com
+- BigDataCloud free client-side reverse geocoding (place names)
 - NASA EOSDIS GIBS imagery (VIIRS NOAA-20 Corrected Reflectance, Blue Marble, Black Marble): https://gibs.earthdata.nasa.gov
 - NASA Visible Earth Blue Marble / Black Marble textures (public domain), Esri World Imagery (optional basemap)
 - WebLLM (Apache-2.0) and Meta Llama 3.2 1B Instruct (Llama 3.2 Community License), run on-device
