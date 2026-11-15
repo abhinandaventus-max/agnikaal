@@ -23,6 +23,7 @@ https://agnikaal.vercel.app
 - Live web app: https://agnikaal.vercel.app
 - Source code (MIT): https://github.com/abhinandaventus-max/agnikaal
 - 7-slide presentation (PDF/PPTX): https://drive.google.com/file/d/1mYJH0oBNqOKTd9hbV5J4TKjh9CnWtPZd/view (PPTX: https://drive.google.com/file/d/1MTCFmaQIfX9Ko_-aE4gMWNqbT94RBYEI/view)
+- Scientific report (11-page PDF: methods, validation, ablation, case studies): https://drive.google.com/file/d/107s8p5sAS38SDYPpN27-c-bU9ih2fF0w/view
 - 2-minute narrated walkthrough video: https://drive.google.com/file/d/1RgVSB50dkhinbHisOcHjPT_qcl-SUgba/view
 - Google Drive folder with all files: https://drive.google.com/drive/folders/1bg_DsqYTLtsNw66qKwfVcNnXYPAA5nwB
 - All files are also attached to the GitHub release: https://github.com/abhinandaventus-max/agnikaal/releases/tag/v1.0

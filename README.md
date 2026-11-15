@@ -1,6 +1,6 @@
 # Agnikaal: Harmonized MODIS + VIIRS Fire Calendar
 
-**Live app: https://agnikaal.vercel.app · Deck: https://agnikaal.vercel.app/deck.html · [Intro video](https://agnikaal.vercel.app/video/agnikaal-intro-web.mp4) · [Presentation (.pptx)](promo/Agnikaal-Presentation.pptx)**
+**Live app: https://agnikaal.vercel.app · [Scientific report (PDF)](docs/Agnikaal-Scientific-Report.pdf) · Deck: https://agnikaal.vercel.app/deck.html · [Intro video](https://agnikaal.vercel.app/video/agnikaal-intro-web.mp4) · [Presentation (.pptx)](promo/Agnikaal-Presentation.pptx)**
 
 **Team AKASHA7:** [Abhinand](https://www.linkedin.com/in/abhinandks12) · Abhijith K S · [Annlia Lixon](https://www.linkedin.com/in/annlia-lixon/)
 
