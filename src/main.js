@@ -208,7 +208,8 @@ function writeHash() {
     else if (S.aoi.type === 'bbox') p.set('aoi', 'b:' + S.aoi.bbox.map((v) => v.toFixed(3)).join(','));
     else p.set('aoi', 'p:' + S.aoi.coords.map((c) => c.map((v) => v.toFixed(3)).join(',')).join(';'));
   }
-  history.replaceState(null, '', '#' + p.toString());
+  // keep the address bar clean (https://agnikaal.vercel.app); the full view link is only built for the Share button
+  S.shareUrl = `${location.origin}${location.pathname}#${p.toString()}`;
 }
 
 function circleAoi(lat, lon, km) {
@@ -685,10 +686,12 @@ async function boot() {
   };
   $('#dlPng').onclick = exportPng;
   $('#dlPrint').onclick = () => { S.tab = 'brief'; renderTab(); setTimeout(() => window.print(), 300); };
-  $('#share').onclick = async () => { writeHash(); try { await navigator.clipboard.writeText(location.href); toast('Link copied: it reopens this exact view'); } catch { toast(location.href); } };
+  $('#share').onclick = async () => { writeHash(); try { await navigator.clipboard.writeText(S.shareUrl); toast('Link copied: it reopens this exact view'); } catch { toast(S.shareUrl); } };
 
   const start = index.find((r) => r.id === S.regionId) ? S.regionId : index[0].id;
   const hp = new URLSearchParams(location.hash.slice(1));
+  // a shared link has been read into the app state; now show the plain address
+  if (location.hash) history.replaceState(null, '', location.pathname + location.search);
   await setRegion(start, { aoi: S.aoi });
   // shared links open straight on the explorer (focus=<section id> to target another section)
   const focus = hp.get('focus') || (hp.get('aoi') ? 'explorer' : null);
