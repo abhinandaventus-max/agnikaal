@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="407.52pt" height="166.536pt" viewBox="0 0 407.52 166.536" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-15T08:05:39.286299</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.0, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 166.536 
+L 407.52 166.536 
+L 407.52 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 7.70112 56.73996 
+L 66.35808 56.73996 
+Q 72.78624 56.73996 72.78624 50.30892 
+L 72.78624 11.72268 
+Q 72.78624 5.29164 66.35808 5.29164 
+L 7.70112 5.29164 
+Q 1.27296 5.29164 1.27296 11.72268 
+L 1.27296 50.30892 
+Q 1.27296 56.73996 7.70112 56.73996 
+z
+" clip-path="url(#p9eb902b2f2)" style="fill: #eaf1f9; stroke: #3b6ea8; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 7.70112 111.00186 
+L 66.35808 111.00186 
+Q 72.78624 111.00186 72.78624 104.57082 
+L 72.78624 65.98458 
+Q 72.78624 59.55354 66.35808 59.55354 
+L 7.70112 59.55354 
+Q 1.27296 59.55354 1.27296 65.98458 
+L 1.27296 104.57082 
+Q 1.27296 111.00186 7.70112 111.00186 
+z
+" clip-path="url(#p9eb902b2f2)" style="fill: #fdf0e6; stroke: #e8762c; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 7.70112 165.26376 
+L 66.35808 165.26376 
+Q 72.78624 165.26376 72.78624 158.83272 
+L 72.78624 120.24648 
+Q 72.78624 113.81544 66.35808 113.81544 
+L 7.70112 113.81544 
+Q 1.27296 113.81544 1.27296 120.24648 
+L 1.27296 158.83272 
+Q 1.27296 165.26376 7.70112 165.26376 
+z
+" clip-path="url(#p9eb902b2f2)" style="fill: #fdf0e6; stroke: #e8762c; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 96.08832 111.00186 
+L 150.72768 111.00186 
+Q 157.15584 111.00186 157.15584 104.57082 
+L 157.15584 11.72268 
+Q 157.15584 5.29164 150.72768 5.29164 
+L 96.08832 5.29164 
+Q 89.66016 5.29164 89.66016 11.72268 
+L 89.66016 104.57082 
+Q 89.66016 111.00186 96.08832 111.00186 
+z
+" clip-path="url(#p9eb902b2f2)" style="fill: #f6f7fa; stroke: #9aa1b0; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 176.44032 111.00186 
+L 231.07968 111.00186 
+Q 237.50784 111.00186 237.50784 104.57082 
+L 237.50784 11.72268 
+Q 237.50784 5.29164 231.07968 5.29164 
+L 176.44032 5.29164 
+Q 170.01216 5.29164 170.01216 11.72268 
+L 170.01216 104.57082 
+Q 170.01216 111.00186 176.44032 111.00186 
+z
+" clip-path="url(#p9eb902b2f2)" style="fill: #f6f7fa; stroke: #9aa1b0; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 256.79232 111.00186 
+L 311.43168 111.00186 
+Q 317.85984 111.00186 317.85984 104.57082 
+L 317.85984 11.72268 
+Q 317.85984 5.29164 311.43168 5.29164 
+L 256.79232 5.29164 
+Q 250.36416 5.29164 250.36416 11.72268 
+L 250.36416 104.57082 
+Q 250.36416 111.00186 256.79232 111.00186 
+z
+" clip-path="url(#p9eb902b2f2)" style="fill: #f6f7fa; stroke: #9aa1b0; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 337.14432 111.00186 
+L 399.81888 111.00186 
+Q 406.24704 111.00186 406.24704 104.57082 
+L 406.24704 11.72268 
+Q 406.24704 5.29164 399.81888 5.29164 
+L 337.14432 5.29164 
+Q 330.71616 5.29164 330.71616 11.72268 
+L 330.71616 104.57082 
+Q 330.71616 111.00186 337.14432 111.00186 
+z
+" clip-path="url(#p9eb902b2f2)" style="fill: #f6f7fa; stroke: #9aa1b0; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 96.08832 165.26376 
+L 399.81888 165.26376 
+Q 406.24704 165.26376 406.24704 158.83272 
+L 406.24704 128.28528 
+Q 406.24704 121.85424 399.81888 121.85424 
+L 96.08832 121.85424 
+Q 89.66016 121.85424 89.66016 128.28528 
+L 89.66016 158.83272 
+Q 89.66016 165.26376 96.08832 165.26376 
+z
+" clip-path="url(#p9eb902b2f2)" style="fill: #fbeceb; stroke: #b3261e; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'Helvetica Neue'; text-anchor: middle; fill: #1d2433" x="37.0296" y="23.06234" transform="rotate(-0 37.0296 23.06234)">MODIS C6.1</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(9.129647 39.748013)">Terra + Aqua, 1 km</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(20.70285 47.410716)">2000–2025</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'Helvetica Neue'; text-anchor: middle; fill: #1d2433" x="37.0296" y="77.32424" transform="rotate(-0 37.0296 77.32424)">VIIRS S-NPP</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(21.741834 94.009912)">375 m, C2</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(20.70285 101.672616)">2012–2025</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'Helvetica Neue'; text-anchor: middle; fill: #1d2433" x="37.0296" y="131.58614" transform="rotate(-0 37.0296 131.58614)">VIIRS NOAA-20/21</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(15.384178 148.271813)">375 m, archive</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(14.452444 155.934516)">+ live NRT feed</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'Helvetica Neue'; text-anchor: middle; fill: #1d2433" x="123.408" y="23.19734" transform="rotate(-0 123.408 23.19734)">1  Quality filter</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(97.830422 39.748013)">MODIS conf ≥ 30</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(95.354906 47.561072)">VIIRS nominal/high</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(93.311484 55.453538)">type = 0 (vegetation)</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(98.101641 63.195647)">drops volcanoes,</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(95.597766 70.929352)">gas flares, industry</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'Helvetica Neue'; text-anchor: middle; fill: #1d2433" x="203.76" y="23.19734" transform="rotate(-0 203.76 23.19734)">2  Common grid</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(172.150125 39.859387)">snap to 0.01° (~1 km)</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(177.294 47.522091)">one count per cell</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(183.380953 55.184794)">per day = Fire</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(181.882547 63.063853)">Cell-Day (FCD)</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(186.607219 70.792556)">→ 0.25° tiles</text>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'Helvetica Neue'; text-anchor: middle; fill: #1d2433" x="284.112" y="23.06234" transform="rotate(-0 284.112 23.06234)">3  Calibration</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(255.011672 39.748013)">per area, per month</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(252.242766 47.410716)">k = ΣV / ΣM, 2012–25</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(260.338078 55.073419)">empirical-Bayes</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(257.989406 62.952478)">shrinkage (λ = 25)</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(256.396125 70.694588)">+ uncertainty band</text>
+   </g>
+   <g id="text_13">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'Helvetica Neue'; text-anchor: middle; fill: #1d2433" x="368.4816" y="23.06234" transform="rotate(-0 368.4816 23.06234)">4  Validation</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(340.549162 39.748013)">leave-one-year-out</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(345.072225 47.476716)">cross-validation</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(340.6791 55.139419)">vs naive raw splice</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(346.174631 62.802122)">R², MAPE, bias</text>
+    <text style="font-size: 6.6px; font-family: 'Helvetica Neue'; fill: #5b6478" transform="translate(344.888662 70.464825)">run live per area</text>
+   </g>
+   <g id="text_15">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'Helvetica Neue'; text-anchor: middle; fill: #b3261e" x="247.9536" y="139.223585" transform="rotate(-0 247.9536 139.223585)">One harmonized record 2001 → today (VIIRS-equivalent FCD)</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 6.8px; font-family: 'Helvetica Neue'; text-anchor: middle; fill: #5b6478" x="247.9536" y="154.145774" transform="rotate(-0 247.9536 154.145774)">fire calendar · season clock · trends · live early warning · AI outlook · Research Lab · exports</text>
+   </g>
+   <g id="patch_10">
+    <path d="M 74.563312 32.763984 
+Q 81.42383 45.083251 87.794781 56.523414 
+" style="fill: none; stroke: #7a8194; stroke-width: 0.9; stroke-linecap: round"/>
+    <path d="M 87.615841 52.502472 
+L 87.794781 56.523414 
+L 84.470663 54.254001 
+z
+" style="fill: #7a8194; stroke: #7a8194; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 74.616867 83.565088 
+Q 81.423786 72.215141 87.713174 61.728131 
+" style="fill: none; stroke: #7a8194; stroke-width: 0.9; stroke-linecap: round"/>
+    <path d="M 84.317929 63.889684 
+L 87.713174 61.728131 
+L 87.405269 65.741259 
+z
+" style="fill: #7a8194; stroke: #7a8194; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 75.590419 139.5396 
+Q 81.425005 139.5396 86.253361 139.5396 
+" style="fill: none; stroke: #7a8194; stroke-width: 0.9; stroke-linecap: round"/>
+    <path d="M 82.653361 137.7396 
+L 86.253361 139.5396 
+L 82.653361 141.3396 
+z
+" style="fill: #7a8194; stroke: #7a8194; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 159.959038 59.1516 
+Q 163.783296 59.1516 166.601323 59.1516 
+" style="fill: none; stroke: #7a8194; stroke-width: 0.9; stroke-linecap: round"/>
+    <path d="M 163.001323 57.3516 
+L 166.601323 59.1516 
+L 163.001323 60.9516 
+z
+" style="fill: #7a8194; stroke: #7a8194; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 240.311038 59.1516 
+Q 244.135296 59.1516 246.953323 59.1516 
+" style="fill: none; stroke: #7a8194; stroke-width: 0.9; stroke-linecap: round"/>
+    <path d="M 243.353323 57.3516 
+L 246.953323 59.1516 
+L 243.353323 60.9516 
+z
+" style="fill: #7a8194; stroke: #7a8194; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 320.663038 59.1516 
+Q 324.487296 59.1516 327.305323 59.1516 
+" style="fill: none; stroke: #7a8194; stroke-width: 0.9; stroke-linecap: round"/>
+    <path d="M 323.705323 57.3516 
+L 327.305323 59.1516 
+L 323.705323 60.9516 
+z
+" style="fill: #7a8194; stroke: #7a8194; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 368.4816 113.40565 
+Q 368.4816 116.229489 368.4816 118.047098 
+" style="fill: none; stroke: #7a8194; stroke-width: 0.9; stroke-linecap: round"/>
+    <path d="M 370.2816 114.447098 
+L 368.4816 118.047098 
+L 366.6816 114.447098 
+z
+" style="fill: #7a8194; stroke: #7a8194; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p9eb902b2f2">
+   <rect x="2.88" y="2.88" width="401.76" height="160.776"/>
+  </clipPath>
+ </defs>
+</svg>
