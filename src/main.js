@@ -160,10 +160,15 @@ const S = {
   live: null, liveFor: null, selYear: null, byMonth: null,
 };
 let M; // map api
-const cache = new Map();
+const cache = new Map(); // region id -> Promise<region>
+const loaded = new Set(); // regions fully downloaded and decoded
 
-async function loadRegion(id) {
-  if (cache.has(id)) return cache.get(id);
+// cache the in-flight promise so a background prefetch and a user click share one download
+function loadRegion(id) {
+  if (!cache.has(id)) cache.set(id, fetchRegion(id).catch((e) => { cache.delete(id); throw e; }));
+  return cache.get(id);
+}
+async function fetchRegion(id) {
   const [meta, buf] = await Promise.all([
     fetch(`/data/${id}.json`).then((r) => r.json()),
     fetch(`/data/${id}.bin`).then((r) => r.arrayBuffer()),
@@ -176,8 +181,20 @@ async function loadRegion(id) {
     for (let i = 0; i < k.length; i++) byMonth[k[i] & 511][key].push(k[i] >>> 9, v[i]);
   }
   reg.byMonth = byMonth;
-  cache.set(id, reg);
+  loaded.add(id);
   return reg;
+}
+
+// After the first region is on screen, quietly download the other regions on desktop
+// so switching region is instant (skipped on phones and when the user asked to save data).
+function prefetchRegions() {
+  const conn = navigator.connection;
+  if (conn && (conn.saveData || /2g/.test(conn.effectiveType || ''))) return;
+  if (!matchMedia('(min-width: 900px)').matches) return;
+  const queue = S.index.map((r) => r.id).filter((id) => !cache.has(id));
+  const idle = window.requestIdleCallback || ((f) => setTimeout(f, 300));
+  const next = () => { const id = queue.shift(); if (id) idle(() => loadRegion(id).catch(() => {}).finally(next)); };
+  next();
 }
 
 function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 2600); }
@@ -567,22 +584,33 @@ async function exportPng() {
 }
 
 // ------------------------------------------------------------------ boot
+let regionSeq = 0;
 async function setRegion(id, { aoi = null, fit = true } = {}) {
-  $('#mapLoading').classList.remove('done');
+  const seq = ++regionSeq;
+  const name = (S.index.find((r) => r.id === id) || {}).name || id;
+  const ready = loaded.has(id);
+  const ov = $('#mapLoading');
+  ov.innerHTML = `<div class="spinner"></div><span>Loading ${name}: 25 years of harmonized fire data…</span>`;
+  if (!ready) ov.classList.remove('done');
+  if (S.region && S.regionId !== id && !ready) toast(`Loading ${name}…`);
+  if (ready) ov.classList.add('done');
   S.regionId = id; S.aoi = aoi; S.live = null;
   $('#regionSel').value = id;
+  let reg;
   try {
-    S.region = await loadRegion(id);
+    reg = await loadRegion(id);
   } catch (e) {
-    $('#mapLoading').innerHTML = `<span>Could not load data for ${id}: ${e.message}</span>`;
+    if (seq === regionSeq) ov.innerHTML = `<span>Could not load data for ${name}: ${e.message}. Please try again.</span>`;
     return;
   }
+  if (seq !== regionSeq) return; // the user picked another region while this one was downloading
+  S.region = reg;
   M.clearLive(); $('#liveBtn').classList.remove('on');
   M.showAoi(S.aoi);
   if (fit) M.fit(S.aoi ? aoiBBox() : S.region.bbox);
   setToolUI(S.aoi ? 'none' : 'region');
   recompute();
-  $('#mapLoading').classList.add('done');
+  ov.classList.add('done');
   fetchLive().then(onLive).catch(() => {});
 }
 
@@ -693,6 +721,7 @@ async function boot() {
   // a shared link has been read into the app state; now show the plain address
   if (location.hash) history.replaceState(null, '', location.pathname + location.search);
   await setRegion(start, { aoi: S.aoi });
+  setTimeout(prefetchRegions, 2500);
   // shared links open straight on the explorer (focus=<section id> to target another section)
   const focus = hp.get('focus') || (hp.get('aoi') ? 'explorer' : null);
   if (focus && document.getElementById(focus)) {
